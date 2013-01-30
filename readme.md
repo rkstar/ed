@@ -4,38 +4,38 @@ A lightweight modular PHP library for creating REST APIs and easing your data ma
 
 ## About *ed*
 
-'''''ed''''' is a lightweight PHP library that eases application development by taking care of all of the low-level data management (database integration, common validation routines, XML and JSON responses) for you.  Concentrate on the data-flow of your specific applications and leave the heavy lifting '''(and boring stuff)''' to '''''ed'''''.
+*__ed__* is a lightweight PHP library that eases application development by taking care of all of the low-level data management (database integration, common validation routines, XML and JSON responses) for you.  Concentrate on the data-flow of your specific applications and leave the heavy lifting *(and boring stuff)* to *__ed__*.
 
 ### Modular On-Demand Architecture
 
-ed is built as an '''on-demand''' library.  There is very little necessary configuration and only one file to include in your application code.  The config files are loaded along with a tiny static ed class which allows you to load modules as needed in your application.  Modules are loaded on each page or function of your application and you only load the modules that you need at any given time.
+ed is built as an *on-demand* library.  There is very little necessary configuration and only one file to include in your application code.  The config files are loaded along with a tiny static ed class which allows you to load modules as needed in your application.  Modules are loaded on each page or function of your application and you only load the modules that you need at any given time.
 
 ### Key Benefits
 
 * Create REST APIs quickly without dealing with database access hassles
-* Database interaction is done entirely through PHP DataObjects ''(PDO)''
+* Database interaction is done entirely through PHP DataObjects __(PDO)__
 * Built-in module dependency management ensures you will never get ed library errors
-* Useful classes like ''Object'' and ''XML'' extend PHP's default functionality
+* Useful classes like __Object__ and __XML__ extend PHP's default functionality
 * Utilities class that includes common use cases and validation for large-scale applications
 * Flexibility to use with any MVC-type application architecture or custom REST API
 * And much, much more...
 
 ## Compatibility and Requirements
 
-'''''ed''''' works and has been tested on the following software:
+*__ed__* works and has been tested on the following software:
 
 * [PHP](http://php.net) >= v5.3
 * [Apache](http://apache.org) >= v2.2.6
 * [MySQL](http://mysql.com) >= v4.1
 
-'''''ed''''' relies on PHP DataObjects for database access, so this extension must be enabled in your PHP build.
+*__ed__* relies on PHP DataObjects for database access, so this extension must be enabled in your PHP build.
 
 This library is completely open source and available for use for personal and commercial projects free-of-charge.
 
 
 ## Documentation
 
-The primary documentation is split up in to multiple files, due to the size of the overall documentation.  You can find these files in the [/docs](https://github.com/rkstar/ed/tree/master/docs) folder, or use the links below to get straight to the documentation for each module in '''''ed'''''.
+The primary documentation is split up in to multiple files, due to the size of the overall documentation.  You can find these files in the [/docs](https://github.com/rkstar/ed/tree/master/docs) folder, or use the links below to get straight to the documentation for each module in *__ed__*.
 
 ### ed's Modules
 
