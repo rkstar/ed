@@ -2,7 +2,7 @@
 
 A lightweight modular PHP library for creating REST APIs and easing your data management woes.
 
-## About '''ed'''
+## About *ed*
 
 '''''ed''''' is a lightweight PHP library that eases application development by taking care of all of the low-level data management (database integration, common validation routines, XML and JSON responses) for you.  Concentrate on the data-flow of your specific applications and leave the heavy lifting '''(and boring stuff)''' to '''''ed'''''.
 
