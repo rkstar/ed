@@ -7,6 +7,8 @@ Example code:
 require_once(dirname(__FILE__)."/config/appconfig.php");
 ed::import("Data.XML");
 
+header("Content-type: text/xml");
+
 $xml = new XML("<response>");
 $xml->addChild("name", "ed");
 $xml->addCDATA("code", "this is some kinda code that is inside cdata tags! woot.");

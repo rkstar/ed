@@ -7,8 +7,6 @@ Example code:
 require_once(dirname(__FILE__)."/config/appconfig.php");
 ed::import("Core.Object");
 
-header("Content-type: text/xml");
-
 $object = new Object(array("name"=>"ed"));
 print $object->name;  // prints 'ed'
 
