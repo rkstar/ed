@@ -50,7 +50,7 @@ The primary documentation is split up in to multiple files, due to the size of t
 * [**Data.Database**](https://github.com/rkstar/ed/tree/master/docs/Data/Database.md): A low-level class that handles database connections and interactivity.  This class is not accessed directly, but rather via an *SQLQuery* instance
 * [**Data.SQLQuery**](https://github.com/rkstar/ed/tree/master/docs/Data/SQLQuery.md): The core class you will interact with when using the *ed* database functionality.  You will define your query parameters here and execute functions to return an *SQLResult* object.
 * [**Data.SQLResult**](https://github.com/rkstar/ed/tree/master/docs/Data/SQLResult.md): The result object that is returned after a database call using *SQLQuery*
-* [**Data.XML**](https://github.com/rkstar/ed/tree/master/docs/Data/XML.md): An extension of PHP's *__SimpleXML__* class
+* [**Data.XML**](https://github.com/rkstar/ed/tree/master/docs/Data/XML.md): An extension of PHP's *__SimpleXMLElement__* class
 
 ### Ecommerce Modules
 
