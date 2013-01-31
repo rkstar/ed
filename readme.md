@@ -39,19 +39,29 @@ The primary documentation is split up in to multiple files, due to the size of t
 
 ### ed's Modules
 
-* [**Marionette.Application**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.application.md): An application object that starts your app via initializers, and more
-* [**Marionette.AppRouter**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.approuter.md): Reduce your routers to nothing more than configuration
-* [**Marionette.Callbacks**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.callbacks.md): Manage a collection of callback methods, and execute them as needed
-* [**Marionette.CollectionView**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.collectionview.md): A view that iterates over a collection, and renders individual `ItemView` instances for each model
-* [**Marionette.Commands**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.commands.md): An extension of Backbone.Wreqr.Commands, a simple command execution framework
-* [**Marionette.CompositeView**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.compositeview.md): A collection view and item view, for rendering leaf-branch/composite model hierarchies
-* [**Marionette.Controller**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.controller.md): A general purpose object for controlling modules, routers, view, and implementing a mediator pattern
-* [**Marionette.functions**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.functions.md): A suite of helper functions and utilities for implementing common Marionette behavior in your objects
-* [**Marionette.ItemView**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.itemview.md): A view that renders a single item
-* [**Marionette.Layout**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.layout.md): A view that renders a layout and creates region managers to manage areas within it
-* [**Marionette.Module**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.application.module.md): Create modules and sub-modules within the application
-* [**Marionette.Region**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.region.md): Manage visual regions of your application, including display and removal of content
-* [**Marionette.Renderer**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.renderer.md): Render templates with or without data, in a consistent and common manner
-* [**Marionette.RequestResponse**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.requestresponse.md): An extension of Backbone.Wreqr.RequestResponse, a simple request/response framework
-* [**Marionette.TemplateCache**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.templatecache.md): Cache templates that are stored in `<script>` blocks, for faster subsequent access
-* [**Marionette.View**](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.view.md): The base View type that other Marionette views extend from (not intended to be used directly)
+* [**ed**](https://github.com/rkstar/ed/tree/master/docs/ed.md): Core Library Class
+* [**Core.Form**](https://github.com/rkstar/ed/tree/master/docs/Core/Form.md): Form data handlers and helpers
+* [**Core.Object**](https://github.com/rkstar/ed/tree/master/docs/Core/Object.md): An extension of PHP's *__stdClass__*
+* [**Core.Utils**](https://github.com/rkstar/ed/tree/master/docs/Core/Utils.md): A static class with lots of validation functions as well as commonly used processes for web development
+* [**Data.Data**](https://github.com/rkstar/ed/tree/master/docs/Data/SQLQuery.md): *__NOTE__* This class has been replaced with `Data.SQLQuery`
+* [**Data.Database**](https://github.com/rkstar/ed/tree/master/docs/Data/Database.md): A low-level class that handles database connections and interactivity.  This class is not accessed directly, but rather via an *SQLQuery* instance
+* [**Data.SQLQuery**](https://github.com/rkstar/ed/tree/master/docs/Data/SQLQuery.md): The core class you will interact with when using the *ed* database functionality.  You will define your query parameters here and execute functions to return an *SQLResult* object.
+* [**Data.SQLResult**](https://github.com/rkstar/ed/tree/master/docs/Data/SQLResult.md): The result object that is returned after a database call using *SQLQuery*
+* [**Data.XML**](https://github.com/rkstar/ed/tree/master/docs/Data/XML.md): An extension of PHP's *__SimpleXML__* class
+
+----
+
+* [**Ecommerce.PSIGate**](https://github.com/rkstar/ed/tree/master/docs/Ecommerce/PSIGate.md): PSIGate payment module that provides a succinct interface to PSIGate's payment API
+
+----
+
+* [**ThirdParty.Facebook**](https://github.com/rkstar/ed/tree/master/docs/ThirdParty/Facebook.md): Facebook API module
+* [**ThirdParty.Google**](https://github.com/rkstar/ed/tree/master/docs/ThirdParty/Google.md): Google API module
+* [**ThirdParty.Mailer**](https://github.com/rkstar/ed/tree/master/docs/ThirdParty/Mailer.md): PHPMailer API module
+
+----
+
+* [**Utils.Canada**](https://github.com/rkstar/ed/tree/master/docs/Utils/Canada.md): Contains arrays of Canadian province and territory codes and names
+* [**Utils.Countries**](https://github.com/rkstar/ed/tree/master/docs/Utils/Countries.md): Contains arrays of all country codes and names
+* [**Utils.FileUpload**](https://github.com/rkstar/ed/tree/master/docs/Utils/FileUpload.md): Incomplete *__DO NOT USE__*
+* [**Utils.USA**](https://github.com/rkstar/ed/tree/master/docs/Utils/USA.md): Contains arrays of USA state codes and names
