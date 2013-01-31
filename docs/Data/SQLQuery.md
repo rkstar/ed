@@ -96,7 +96,6 @@ $sql->setAuthMethod("password", "/PASSWORD('".$my_new_password."')/");
 #### openAuthGroup( [linkage] )
 > Starts an "auth group" to which subsequent `setAuthMethod` calls will be added.  The `linkage` parameter defines which "glue" should be used when working in conjunction with other auth methods in the same query.  Accepted `linkage`: *(and | or)*.  This function must always close your auth group with `closeAuthGroup`.
 ```php
-
 $sql = new SQLQuery();
 $sql->table = "users";
 $sql->setAuthMethod("firstname", "ed");
