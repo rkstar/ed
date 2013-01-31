@@ -26,15 +26,22 @@ if( $formObject->posted_id === $_POST["posted_id"] )
 ## Functions
 
 **raw()**
+
 Returns a hash array of all merged data submission vars: `$_REQUEST`, `$_GET`, amd `$_POST`.
 
+
 **data()**
+
 Retunrs an object of all merged data and submission vars: `$_REQUEST`, `$_GET`, amd `$_POST`.
 
+
 **xml()**
+
 Returns a SimpleXML object of XML formatted HTTP request body contents.  This is typically how XML data is sent to PHP APIs.
 
+
 **json()**
+
 Returns an object of JSON formatted HTTP request body contents.  This is typically how JSON data is sent to PHP APIs.
 
 **sanitized( hash_array )**
