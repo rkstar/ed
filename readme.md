@@ -37,29 +37,32 @@ This library is completely open source and available for use for personal and co
 
 The primary documentation is split up in to multiple files, due to the size of the overall documentation.  You can find these files in the [/docs](https://github.com/rkstar/ed/tree/master/docs) folder, or use the links below to get straight to the documentation for each module in *__ed__*.
 
-### ed's Modules
+### Core Modules
 
 * [**ed**](https://github.com/rkstar/ed/tree/master/docs/ed.md): Core Library Class
 * [**Core.Form**](https://github.com/rkstar/ed/tree/master/docs/Core/Form.md): Form data handlers and helpers
 * [**Core.Object**](https://github.com/rkstar/ed/tree/master/docs/Core/Object.md): An extension of PHP's *__stdClass__*
 * [**Core.Utils**](https://github.com/rkstar/ed/tree/master/docs/Core/Utils.md): A static class with lots of validation functions as well as commonly used processes for web development
+
+### Data Modules
+
 * [**Data.Data**](https://github.com/rkstar/ed/tree/master/docs/Data/SQLQuery.md): *__NOTE__* This class has been replaced with `Data.SQLQuery`
 * [**Data.Database**](https://github.com/rkstar/ed/tree/master/docs/Data/Database.md): A low-level class that handles database connections and interactivity.  This class is not accessed directly, but rather via an *SQLQuery* instance
 * [**Data.SQLQuery**](https://github.com/rkstar/ed/tree/master/docs/Data/SQLQuery.md): The core class you will interact with when using the *ed* database functionality.  You will define your query parameters here and execute functions to return an *SQLResult* object.
 * [**Data.SQLResult**](https://github.com/rkstar/ed/tree/master/docs/Data/SQLResult.md): The result object that is returned after a database call using *SQLQuery*
 * [**Data.XML**](https://github.com/rkstar/ed/tree/master/docs/Data/XML.md): An extension of PHP's *__SimpleXML__* class
 
-----
+### Ecommerce Modules
 
 * [**Ecommerce.PSIGate**](https://github.com/rkstar/ed/tree/master/docs/Ecommerce/PSIGate.md): PSIGate payment module that provides a succinct interface to PSIGate's payment API
 
-----
+### Third Party Modules
 
 * [**ThirdParty.Facebook**](https://github.com/rkstar/ed/tree/master/docs/ThirdParty/Facebook.md): Facebook API module
 * [**ThirdParty.Google**](https://github.com/rkstar/ed/tree/master/docs/ThirdParty/Google.md): Google API module
 * [**ThirdParty.Mailer**](https://github.com/rkstar/ed/tree/master/docs/ThirdParty/Mailer.md): PHPMailer API module
 
-----
+### Utility Modules
 
 * [**Utils.Canada**](https://github.com/rkstar/ed/tree/master/docs/Utils/Canada.md): Contains arrays of Canadian province and territory codes and names
 * [**Utils.Countries**](https://github.com/rkstar/ed/tree/master/docs/Utils/Countries.md): Contains arrays of all country codes and names
