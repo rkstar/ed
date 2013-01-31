@@ -49,6 +49,8 @@ class SQLResult extends Object
 		// no conditions met in our switch above...
 		return (property_exists($this->_data, $key)) ? $this->_data->$key : null;
 	}
+	// allows us to get field values from the record even if they are named the same as publicly accessible "private" attributes
+	public function getData( $key ) { return (property_exists($this->_data, $key)) ? $this->_data->$key : null; }
 
 	public function next()
 	{

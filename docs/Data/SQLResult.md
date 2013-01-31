@@ -1,38 +1,64 @@
-# Core.Object
+# Data.SQLResult
 
-The `Object` class extends the basic functionality of PHP's `stdClass` object.  It is used mostly as a parent class to other *ed* modules, but can be instantiated and used for situations like returning JSON data to a client application.
+The `SQLResult` class extends `Object` and provides an interface for working with record sets resulting from database queries.  This class is used in conjunction with `SQLQuery`, which will import it, so there is no need to import this class directly.
 
 Example code:
 ```php
 require_once(dirname(__FILE__)."/config/appconfig.php");
-ed::import("Core.Object");
+ed::import("Data.SQLQuery");
 
-$object = new Object(array("name"=>"ed"));
-print $object->name;  // prints 'ed'
+$sql = new SQLQuery();
+$sql->rawQuery("select * from users");
+$result = $sql->select();
 
-// alternately
+while( $result->next() )
+{
+	print $result->firstname." ".$result->lastname."<br />\n";
+}
 
-$object->lastname = "the enabler.";
-
-print $object->name.", ".$object->lastname;	// prints 'ed, the enabler.'
+// prints:
+// ed mcmahon
+// ed thesock
+// ed thehorse
+// ed mirvish
+// ed templeton
+// ed hardy
 ```
 
 ## Documentation Index
 
 * [Dependencies](#dependencies)
+* [Properties](#properties)
 * [Functions](#functions)
 
 ## Dependencies
 
-* *none*
+* [**Core.Object**](https://github.com/rkstar/ed/tree/master/docs/Core/Object.md): An extension of PHP's *__stdClass__*
+
+## Properties
+
+#### query
+> The raw SQL that created this result set.
+
+#### numrows
+> The number of affected rows or records returned.
+
+#### rowcount
+> Alias to `numrows`.
+
+#### affectedrows
+> Alias to `numrows`.
+
+#### insertid
+> [**PDO::lastInsertId**](http://www.php.net/manual/en/pdo.lastinsertid.php)
+
+#### lastinsertid
+> Alias to `insertid`
 
 ## Functions
 
-#### __construct( [hash_array] )
-Returns an instance of this object class.  Optionally, you can provide a hash array of properties to be added to this object.  Because it automatically extends the `stdClass` object, you also set properties manually on the object instance.
+#### next()
+> Returns (and sets) the public data of this instance to the fields and values of the *next* record in our recordset.  Record set field names will be accessible as object variables and will return the values of those fields in the current record.  This function will return `null` when it has reached the end of the recordset.
 
-#### json()
-Returns a JSON encoded representation of the object instance.
-
-#### jsonize()
-Alias to `Object->json()`.
+#### getData( field )
+> Returns the field value from the current record.  This is only necessary when a field in a record is named the same as one of this class' internal attributes.  In my experience, this occurrence is rare.
