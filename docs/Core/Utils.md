@@ -86,7 +86,8 @@ Returns a string generated with random characters as delimited by parameters pas
 ```
 parameters:
 	length : The length of random string to be generated (default: 8).
-	type   : The type of string to be generated. Available types: "alphanumeric", "numeric", "alpha" (default: "alphanumeric").
+	type   : The type of string to be generated. 
+			 Available types: "alphanumeric", "numeric", "alpha" (default: "alphanumeric").
 ```
 
 #### [static] randomPassword( [length, type] )
