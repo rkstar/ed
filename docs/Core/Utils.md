@@ -58,24 +58,24 @@ Returns `true` or `false`.  Validates formatting of supplied email address.
 #### [static] validPhone( phone )
 Returns `true` or `false`.  Validates formatting of supplied phone number.  Acceptable formats include any combination of the following:
 ```
-	(555) 867-5309
-	555 867 5309
-	555.867.5309
+(555) 867-5309
+555 867 5309
+555.867.5309
 ```
 
 #### [static] validPostalCode( postalCode )
 Returns `true` or `false`.  Validates formatting of supplied Canadian postal code.  Acceptable formats include:
 ```
-	h0h 0h0
-	h0h0h0
+h0h 0h0
+h0h0h0
 ```
 
 #### [static] validSIN( sin )
 Returns `true` or `false`.  Validates formatting of supplied Canadian Social Insurance Number.  Acceptable formats include:
 ```
-	999-223-223
-	999 223 223
-	999223223
+999-223-223
+999 223 223
+999223223
 ```
 
 #### [static] validAlphanumeric( string )
