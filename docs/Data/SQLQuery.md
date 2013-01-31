@@ -157,7 +157,7 @@ $sql->setValue("password", "/PASSWORD('".$my_new_password."')/");
 > Returns [**SQLResult**](https://github.com/rkstar/ed/tree/master/docs/Data/SQLResult.md) or `false` based on the result of the query.  On error, the `errorInfo` attribute will contain [**PDO errorInfo**](http://www.php.net/manual/en/pdostatement.errorinfo.php).
 
 #### delete()
-> Returns [**SQLResult**](https://github.com/rkstar/ed/tree/master/docs/Data/SQLResult.md) or `false` based on the result of the query.  On error, the `errorInfo` attribute will contain [**PDO errorInfo**](http://www.php.net/manual/en/pdostatement.errorinfo.php).
+> Returns `true` or `false`.
 
 #### ascending()
 > Set the direction for ordering results to `ASCEND`

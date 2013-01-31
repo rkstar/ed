@@ -8,9 +8,9 @@
 // this file gives us a simple and familiar interface to PDO
 
 // load dependencies here
-ed::load("Core.Object");
-ed::load("Data.SQLQuery");
-ed::load("Data.SQLResult");
+ed::import("Core.Object");
+ed::import("Data.SQLQuery");
+ed::import("Data.SQLResult");
 
 class Database extends Object
 {
