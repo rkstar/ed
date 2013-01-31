@@ -105,8 +105,6 @@ $sql->openAuthGroup("and")
 	$sql->setAuthMethod("city", "Miami", "or");
 $sql->closeAuthGroup();
 $result = $sql->select();
-
-...
 ```
 
 #### closeAuthGroup()
