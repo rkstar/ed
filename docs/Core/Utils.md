@@ -57,37 +57,29 @@ Returns `true` or `false`.  Validates formatting of supplied email address.
 
 #### [static] validPhone( phone )
 Returns `true` or `false`.  Validates formatting of supplied phone number.  Acceptable formats include any combination of the following:
-```php
-(555) 867-5309
-555 867 5309
-555.867.5309
-```
+	(555) 867-5309
+	555 867 5309
+	555.867.5309
 
 #### [static] validPostalCode( postalCode )
 Returns `true` or `false`.  Validates formatting of supplied Canadian postal code.  Acceptable formats include:
-```php
-h0h 0h0
-h0h0h0
-```
+	h0h 0h0
+	h0h0h0
 
 #### [static] validSIN( sin )
 Returns `true` or `false`.  Validates formatting of supplied Canadian Social Insurance Number.  Acceptable formats include:
-```php
-999-223-223
-999 223 223
-999223223
-```
+	999-223-223
+	999 223 223
+	999223223
 
 #### [static] validAlphanumeric( string )
 Returns `true` or `false`.  Validates that the supplied string only contains letters and numbers.
 
 #### [static] random( [length, type] )
 Returns a string generated with random characters as delimited by parameters passed in.
-```php
-parameters:
-	length : The length of random string to be generated (default: 8).
-	type   : The type of string to be generated. Available types: "alphanumeric", "numeric", "alpha" (default: "alphanumeric").
-```
+	parameters:
+		length : The length of random string to be generated (default: 8).
+		type   : The type of string to be generated. Available types: "alphanumeric", "numeric", "alpha" (default: "alphanumeric").
 
 #### [static] randomPassword( [length, type] )
 Alias to `Utils::random()`.
