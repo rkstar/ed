@@ -212,7 +212,7 @@ class Database extends Object
 		$fieldList = $this->getTableFieldList($qobject->table);
 		
 		// start the query
-		$q = "insert into ".$qobject->table." ";
+		$q = "replace into ".$qobject->table." ";
 		// loop thru the fields and prepare them for the insert query
 		$field_values = $qobject->getValues();
 		$bind_params  = array();

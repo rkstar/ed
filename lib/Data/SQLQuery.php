@@ -152,13 +152,13 @@ class SQLQuery extends Object
 		$child->addAttribute("operator",$operator);
 		$child->addAttribute("linkage",$linkage);
 	}
-	private function addToAuthMethod( $object )
+	private function addToAuthMethod( $objectOrArray )
 	{
 		// make sure we're getting the object vars unless it's already an array
 		$vars = (is_object($objectOrArray)) ? get_object_vars($objectOrArray) : $objectOrArray;
 		while( list($k,$v) = each($vars) )
 		{
-			if( gettype($v) == "object" ) { $this->addToAuthMethod($v); }
+			if( is_object($v) || is_array($v) ) { $this->addToAuthMethod($v); }
 			else { $this->setAuthMethod($k,$v); }
 		}
 	}

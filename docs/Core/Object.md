@@ -29,10 +29,10 @@ print $object->name.", ".$object->lastname;	// prints 'ed, the enabler.'
 ## Functions
 
 #### __construct( [hash_array] )
-Returns an instance of this object class.  Optionally, you can provide a hash array of properties to be added to this object.  Because it automatically extends the `stdClass` object, you also set properties manually on the object instance.
+> Returns an instance of this object class.  Optionally, you can provide a hash array of properties to be added to this object.  Because it automatically extends the `stdClass` object, you also set properties manually on the object instance.
 
 #### json()
-Returns a JSON encoded representation of the object instance.
+> Returns a JSON encoded representation of the object instance.
 
 #### jsonize()
-Alias to `Object->json()`.
+> Alias to `Object->json()`.

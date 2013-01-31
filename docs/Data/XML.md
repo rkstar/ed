@@ -34,10 +34,10 @@ $xml->finish();
 ## Functions
 
 #### append( element )
-Appends a complete node to the parent.  Nested elements inside the supplied element will be added.
+> Appends a complete node to the parent.  Nested elements inside the supplied element will be added.
 
 #### addCDATA( name, value )
-Creates a new node using the parent's `addChild` function, but wraps the `value` parameter in a `<![CDATA[]]>` tag.
+> Creates a new node using the parent's `addChild` function, but wraps the `value` parameter in a `<![CDATA[]]>` tag.
 
 #### finish( [return] )
-Runs parent's `asXML` function and returns the value (if `return` is true) or `die()` printing XML to screen/output.  `return` is false by default.
+> Runs parent's `asXML` function and returns the value (if `return` is true) or `die()` printing XML to screen/output.  `return` is false by default.
