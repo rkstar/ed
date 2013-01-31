@@ -29,7 +29,7 @@ $xml->finish();
 
 ## Dependencies
 
-*[**SimpleXMLElement**](http://php.net/simplexmlelement)
+* [**SimpleXMLElement**](http://php.net/simplexmlelement)
 
 ## Functions
 
