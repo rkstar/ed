@@ -13,7 +13,7 @@ class Utils
 	// get a list of country codes
 	public static function getCountryCodes()
 	{
-		ed::load("Utils.Countries");
+		ed::import("Utils.Countries");
 		$countries = new Countries();
 		return $countries->codes;
 	}
@@ -21,7 +21,7 @@ class Utils
 	// get a list of country names
 	public static function getCountryNames()
 	{
-		ed::load("Utils.Countries");
+		ed::import("Utils.Countries");
 		$countries = new Countries();
 		return $countries->names;
 	}
@@ -29,7 +29,7 @@ class Utils
 	// get a hash of country code=>name
 	public static function getCountryHash()
 	{
-		ed::load("Utils.Countries");
+		ed::import("Utils.Countries");
 		$countries = new Countries();
 		return array_combine($countries->codes, $countries->names);
 	}
@@ -37,7 +37,7 @@ class Utils
 	// get a list of US state codes
 	public static function getUSAStateCodes()
 	{
-		ed::load("Utils.USA");
+		ed::import("Utils.USA");
 		$states = new USA();
 		return $states->codes;
 	}
@@ -45,7 +45,7 @@ class Utils
 	// get a list of US state names
 	public static function getUSAStateNames()
 	{
-		ed::load("Utils.USA");
+		ed::import("Utils.USA");
 		$states = new USA();
 		return $states->names;
 	}
@@ -53,7 +53,7 @@ class Utils
 	// get a has of US state code=>name
 	public static function getUSAStateHash()
 	{
-		ed::load("Utils.USA");
+		ed::import("Utils.USA");
 		$states = new USA();
 		return array_combine($states->codes, $states->names);
 	}
@@ -61,7 +61,7 @@ class Utils
 	// get a list of Canadian province codes
 	public static function getCAProvinceCodes()
 	{
-		ed::load("Utils.Canada");
+		ed::import("Utils.Canada");
 		$provinces = new Canada();
 		return $provinces->codes;
 	}
@@ -69,7 +69,7 @@ class Utils
 	// get a list of Canadian province names
 	public static function getCAProvinceNames()
 	{
-		ed::load("Utils.Canada");
+		ed::import("Utils.Canada");
 		$provinces = new Canada();
 		return $provinces->names;
 	}
@@ -77,7 +77,7 @@ class Utils
 	// get a hash of Canadian province code=>name
 	public static function getCAProvinceHash()
 	{
-		ed::load("Utils.Canada");
+		ed::import("Utils.Canada");
 		$provinces = new Canada();
 		return array_combine($provinces->codes, $provinces->names);
 	}

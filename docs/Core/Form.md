@@ -40,5 +40,5 @@ Returns a SimpleXML object of XML formatted HTTP request body contents.  This is
 
 Returns an object of JSON formatted HTTP request body contents.  This is typically how JSON data is sent to PHP APIs.
 
-#### [static] sanitized( hash_array )
+#### [static] sanitized( [hash_array] )
 Returns an object of provided hash array.  This function will use the `Form::raw()` function to use merged submission data by default.  This function will omit hash elements that are null, zero-length string values, and string values equal to "null".
