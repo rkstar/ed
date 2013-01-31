@@ -6,7 +6,7 @@
 // I put this file back into the library purely for backwards compatibility.
 //
 
-ed::load("Data.SQLQuery");
+ed::import("Data.SQLQuery");
 
 class Data extends SQLQuery
 {

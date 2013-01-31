@@ -18,7 +18,7 @@
 // submission data.  HOWEVER, we will load form data first, then the XML data,
 // so if there is a combination of data submitted and the variable names are all
 // unique, ALL DATA will be available in our application.
-ed::load("Core.Object");
+ed::import("Core.Object");
 
 class Form
 {
