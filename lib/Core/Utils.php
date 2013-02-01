@@ -14,72 +14,63 @@ class Utils
 	public static function getCountryCodes()
 	{
 		ed::import("Utils.Countries");
-		$countries = new Countries();
-		return $countries->codes;
+		return Countries::codes;
 	}
 	
 	// get a list of country names
 	public static function getCountryNames()
 	{
 		ed::import("Utils.Countries");
-		$countries = new Countries();
-		return $countries->names;
+		return Countries::names;
 	}
 	
 	// get a hash of country code=>name
 	public static function getCountryHash()
 	{
 		ed::import("Utils.Countries");
-		$countries = new Countries();
-		return array_combine($countries->codes, $countries->names);
+		return array_combine(Countries::codes, Countries::names);
 	}
 	
 	// get a list of US state codes
 	public static function getUSAStateCodes()
 	{
 		ed::import("Utils.USA");
-		$states = new USA();
-		return $states->codes;
+		return USA::codes;
 	}
 	
 	// get a list of US state names
 	public static function getUSAStateNames()
 	{
 		ed::import("Utils.USA");
-		$states = new USA();
-		return $states->names;
+		return USA::names;
 	}
 	
 	// get a has of US state code=>name
 	public static function getUSAStateHash()
 	{
 		ed::import("Utils.USA");
-		$states = new USA();
-		return array_combine($states->codes, $states->names);
+		return array_combine(USA::codes, USA::names);
 	}
 	
 	// get a list of Canadian province codes
 	public static function getCAProvinceCodes()
 	{
 		ed::import("Utils.Canada");
-		$provinces = new Canada();
-		return $provinces->codes;
+		return Canada::codes;
 	}
 	
 	// get a list of Canadian province names
 	public static function getCAProvinceNames()
 	{
 		ed::import("Utils.Canada");
-		$provinces = new Canada();
-		return $provinces->names;
+		return Canada::names;
 	}
 	
 	// get a hash of Canadian province code=>name
 	public static function getCAProvinceHash()
 	{
 		ed::import("Utils.Canada");
-		$provinces = new Canada();
-		return array_combine($provinces->codes, $provinces->names);
+		return array_combine(Canada::codes, Canada::names);
 	}
 	
 	// validate an email address
