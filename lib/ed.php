@@ -8,42 +8,26 @@
 class ed
 {
 	// added "import" command for usability
-	public static function import( $pkg ) { ed::load($pkg); }
+	public static function import( $module ) { ed::load($module); }
 
 	// kept for backward compatibility
-	public static function load( $pkg )
+	public static function load( $module )
 	{
 		// sanity
-		if( strlen($pkg) < 1 ) { return false; }
+		// NO * ALLOWED!!
+		if( (strlen($module) < 1) || strstr($module,"*") ) { return false; }
 
-		// we'll replace the "."s with "/"s
-		$path = (strstr($pkg,".")) ? str_replace(".","/",$pkg) : $pkg;
-		// find the last dir in the path and the package requested
-		$lastdir = (strstr($path,"/")) ? substr($path,0,strrpos($path,"/")) : "";
-		$package = (strstr($path,"/")) ? substr($path,strrpos($path,"/") + 1) : $path;
-		//$pkgdir  = (strlen($lastdir) > 0) ? LIB."/".$lastdir : LIB;
-		$pkgdir  = (strlen($lastdir) > 0) ? dirname(__FILE__)."/".$lastdir : dirname(__FILE__);
+		// split the path on "."
+		$path = dirname(__FILE__)."/".join("/", explode(".", $module)).".php";
 
-		if( !is_dir($pkgdir) ) { return false; }
+		// check to see if this path is in our included files already
+		if( in_array($path, get_included_files()) ) { return false; }
 
-		// see if we've already included this file?
-		//if( in_array(LIB."/".$path, get_included_files()) ) { return false; }
-		if( in_array(dirname(__FILE__)."/".$path, get_included_files()) ) { return false; }
-	    
-		// we have a dir... include the package(s)
-		if( $package == "*" )
-		{
-			// we want ALL the packages within this directory
-			// read the dir and loop it
-			if( !($dh = opendir($pkgdir)) ) { return false; }
-			while( $file = readdir($dh) )
-			{
-				if( ($file==".") || ($file=="..") )  { continue; }
-				elseif( substr($file,-4) == ".php" ) { require_once($pkgdir."/".$file); }
-			}
-		}
-		//else { if( file_exists(LIB."/".$path.".php") ) { require_once(LIB."/".$path.".php"); } }
-		else { if( file_exists(dirname(__FILE__)."/".$path.".php") ) { require_once(dirname(__FILE__)."/".$path.".php"); } }
+		// make sure file exists
+		if( !file_exists($path) ) { return false; }
+
+		// get the file!
+		require_once($path);
 	}	
 }
 ?>
