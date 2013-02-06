@@ -24,7 +24,12 @@ class ed
 		if( in_array($path, get_included_files()) ) { return false; }
 
 		// make sure file exists
-		if( !file_exists($path) ) { return false; }
+		// NOTE:
+		// file_exists, is_file, and stat WILL NOT WORK when the file
+		// is in the safe_mode_include_path
+		// we will have to skip this check and simply error if the
+		// require() fails.
+		// if( !file_exists($path) ) { return false; }
 
 		// get the file!
 		require_once($path);
