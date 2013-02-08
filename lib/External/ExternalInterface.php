@@ -15,7 +15,7 @@ class ExternalInterface
 	private $_url;
 	private $_postvars;
 
-	public function __construct( $url=DEFAULT_API_URL ) { $this->url = $url; }
+	public function __construct( $url="" ) { $this->url = $url; }
 
 	public function __set( $name, $value ) { $this->_{$name} = $value; }
 	public function __get( $name ) { return (property_exists("ExternalInterface",$this->_{$name})) ? $this->_{$name} : null; }
