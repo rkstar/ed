@@ -7,6 +7,7 @@
 //
 // This class takes care of all the curl options and setup
 // to interact with the external API for our airmiles class.
+ed::import("Core.Object");
 
 class ExternalInterface
 {
