@@ -11,7 +11,6 @@ ed::import("Core.Object");
 
 class ExternalInterface
 {
-	private $_ch;
 	private $_options;
 	private $_url;
 	private $_postvars;
@@ -24,23 +23,23 @@ class ExternalInterface
 	public function exec() { return $this->execute(); }
 	public function execute()
 	{
-		$this->ch = curl_init();
+		$ch = curl_init();
 		// set some default curl options
-		curl_setopt($this->ch, CURLOPT_URL, $this->url);
-		curl_setopt($this->ch, CURLOPT_POST, true);
-		curl_setopt($this->ch, CURLOPT_POSTFIELDS, http_build_query($this->postvars));
-		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_URL, $this->url);
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->postvars));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		// check for user options and set those... they may override what we have just done
 		if( is_array($this->options) && (count($this->options) > 0) )
 		{
-			curl_setopt_array($this->ch, $this->options);
+			curl_setopt_array($ch, $this->options);
 		}
 
-		$response = !($r = curl_exec($this->ch))
-					? new Object(array("errorcode"=>curl_errno($this->ch), "message"=>curl_error($this->ch)))
+		$response = !($r = curl_exec($ch))
+					? new Object(array("errorcode"=>curl_errno($ch), "message"=>curl_error($ch)))
 					: json_decode($r);
 
-		curl_close($this->ch);
+		curl_close($ch);
 		return $response;
 	}
 }
