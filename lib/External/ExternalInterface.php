@@ -8,7 +8,7 @@
 // This class takes care of all the curl options and setup
 // to interact with the external API for our airmiles class.
 
-class ExternalAPI
+class ExternalInterface
 {
 	private $_ch;
 	private $_url;
@@ -16,32 +16,16 @@ class ExternalAPI
 
 	public function __construct( $url=DEFAULT_API_URL ) { $this->url = $url; }
 
-	public function __set( $name, $value )
-	{
-		switch( $name )
-		{
-			case "postvars":
-			case "url":
-			case "ch":
-				$this->_{$name} = $value;
-			break;
+	public function __set( $name, $value ) { $this->_{$name} = $value; }
+	public function __get( $name ) { return (property_exists("ExternalInterface",$this->_{$name})) ? $this->_{$name} : null; }
 
-			case "data":
-				$post = array();
-				$vars = get_object_vars($value);
-				while( list($k,$v) = $vars ) { array_push($post, $k."=".$v); }
-				$this->_postvars = join("&",$post);
-			break;
-		}
-	}
-	public function __get( $name ) { return (property_exists("AirMiles",$this->_{$name}) ? $this->_{$name} : null; }
-
-	public function exec()
+	public function exec() { return $this->execute(); }
+	public function execute()
 	{
 		$this->ch = curl_init();
 		curl_setopt($this->ch, CURLOPT_URL, $this->url);
 		curl_setopt($this->ch, CURLOPT_POST, true);
-		curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->postvars);
+		curl_setopt($this->ch, CURLOPT_POSTFIELDS, http_build_query($this->postvars));
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
 
 		$response = !($r = curl_exec($this->ch))
