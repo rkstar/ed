@@ -11,14 +11,11 @@ ed::import("Core.Object");
 
 class ExternalInterface
 {
-	private $_options;
-	private $_url;
-	private $_postvars;
+	public $options;
+	public $url;
+	public $postvars;
 
 	public function __construct( $url="" ) { $this->url = $url; }
-
-	public function __set( $name, $value ) { $this->_{$name} = $value; }
-	public function __get( $name ) { return (property_exists("ExternalInterface",$this->_{$name})) ? $this->_{$name} : null; }
 
 	public function exec() { return $this->execute(); }
 	public function execute()
