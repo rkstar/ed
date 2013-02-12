@@ -13,7 +13,7 @@ class ExternalInterface
 {
 	public $options;
 	public $url;
-	public $postvars;
+	public $postdata;
 
 	public function __construct( $url="" ) { $this->url = $url; }
 
@@ -24,7 +24,7 @@ class ExternalInterface
 		// set some default curl options
 		curl_setopt($ch, CURLOPT_URL, $this->url);
 		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->postvars));
+		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->postdata));
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		// check for user options and set those... they may override what we have just done
 		if( is_array($this->options) && (count($this->options) > 0) )
