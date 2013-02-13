@@ -174,13 +174,13 @@ class Excel extends PHPExcel
 	}
 
 	// write out the excel sheet
-	public function save( $filepath="php://output", $type="Excel2007" )
+	public function save( $filename="report.xlsx",  $download=true, $type="Excel2007" )
 	{
-		if( ($filepath == "php://output") && !headers_sent() )
+		if( $download && !headers_sent() )
 		{
 			// Redirect output to a client’s web browser (Excel2007)
 			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-			header('Content-Disposition: attachment;filename="01simple.xlsx"');
+			header('Content-Disposition: attachment;filename="'.$filename.'"');
 			header('Cache-Control: max-age=0');
 		}
 		elseif( !is_writeable($filepath) ) { return false; }
