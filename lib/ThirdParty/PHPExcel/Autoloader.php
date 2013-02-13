@@ -74,20 +74,21 @@ return spl_autoload_register("PHPExcel_Autoloader::Load");
             return FALSE;
         }
 
-        $pClassFilePath = PHPEXCEL_ROOT .
-                          str_replace('_',DIRECTORY_SEPARATOR,$pClassName) .
-                          '.php';
+        // MODIFIED BY DAVID FUDGE
+        //
+        // made this mod so that it would fit into the ed library BOOYAH.
+        ed::import("ThirdParty.PHPExcel.".str_replace("_",".",$pClassName));
 
-print "including file: ".$pClassFilePath."<br />\n";
+        // $pClassFilePath = PHPEXCEL_ROOT .
+        //                   str_replace('_',DIRECTORY_SEPARATOR,$pClassName) .
+        //                   '.php';
 
-        if ((file_exists($pClassFilePath) === FALSE) || (is_readable($pClassFilePath) === FALSE)) {
-            //    Can't load
-            return FALSE;
-        }
+        // if ((file_exists($pClassFilePath) === FALSE) || (is_readable($pClassFilePath) === FALSE)) {
+        //     //    Can't load
+        //     return FALSE;
+        // }
 
-print "required....<br />\n";
-
-        require($pClassFilePath);
+        // require($pClassFilePath);
     }   //    function Load()
 
 }
