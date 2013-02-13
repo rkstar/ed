@@ -25,7 +25,7 @@
  * @version    ##VERSION##, ##DATE##
  */
 
-print PHPExcel_Autoloader::Register() ? "autoload worked!" : "no autloading bro";
+PHPExcel_Autoloader::Register();
 //    As we always try to run the autoloader before anything else, we can use it to do a few
 //        simple checks and initialisations
 //PHPExcel_Shared_ZipStreamWrapper::register();
