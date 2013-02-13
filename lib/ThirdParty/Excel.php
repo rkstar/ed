@@ -183,10 +183,11 @@ class Excel extends PHPExcel
 			header('Content-Disposition: attachment;filename="'.$filename.'"');
 			header('Cache-Control: max-age=0');
 		}
-		elseif( !is_writeable($filepath) ) { return false; }
+		elseif( !$download && !is_writeable(APPDIR) ) { return false; }
 
 		$writer = PHPExcel_IOFactory::createWriter($this, $type);
-		$writer->save($filepath);
+		$path = ($download) ? "php://output" : APPDIR."/".$filename;
+		$writer->save($path);
 
 		return true;
 	}
