@@ -13,18 +13,17 @@
 // are free to import PHPExcel like below to interact with it directly.
 //
 ed::import("Core.Object");
+ed::import("Core.Utils");
 ed::import("ThirdParty.PHPExcel");
 
 class Excel extends PHPExcel
 {
 	private $_columns;
-	private $_rows = 1;
+	private $_map;
+	private $_rows = 0;
 
 	public function __construct()
 	{
-		// init the column headings object
-		$this->_columns = new Object();
-
 		// run the parent constructor
 		parent::__construct();
 	}
@@ -44,6 +43,10 @@ class Excel extends PHPExcel
 
 			case "properties":
 				return $this->getProperties();
+			break;
+
+			case "rows":
+				return $this->_rows;
 			break;
 
 			case "security":
@@ -111,104 +114,52 @@ class Excel extends PHPExcel
 	public function add( $data )
 	{
 		if( !is_object($data) || !is_array($data) ) { return false; }
+
+		// get a reference to the active spreadsheet
+		$sheet = $this->getActiveSheet();
+		$alpha = Utils::alphabet;
+
+		// check to see if we have already added the column headings to
+		// this spreadsheet or not
+		if( $this->_rows < 1 )
+		{
+			$this->_rows++;
+			for( $i=0; $i<count($this->_columns); $i++ )
+			{
+				$column = strtoupper($alpha[$i]).($this->_rows);
+				$title  = $this->_columns[$i];
+				// map our headers to column fields (a1, b1, etc...)
+				if( !$this->_map ) { $this->_map = new Object(); }
+				$this->_map->{$title} = $column;
+				$sheet->setCellValue($column, $title);
+			}
+		}
+
+		// increment the row counter and add our data!
+		$this->_rows++;
+		$data = (is_object($data)) ? get_object_vars($data) : $data;
+		while( list($k,$v) = each($data) )
+		{
+			$sheet->setCellValue( $this->_map{$k}.$this->_rows, $v );
+		}
+	}
+
+	// write out the excel sheet
+	public function save( $filepath="php://output", $type="Excel2007" )
+	{
+		if( ($filepath == "php://output") && !headers_sent() )
+		{
+			// Redirect output to a client’s web browser (Excel2007)
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			header('Content-Disposition: attachment;filename="01simple.xlsx"');
+			header('Cache-Control: max-age=0');
+		}
+		elseif( !is_writeable($filepath) ) { return false; }
+
+		$writer = PHPExcel_IOFactory::createWriter($this, $type);
+		$writer->save($filepath);
+
+		return true;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * PHPExcel
- *
- * Copyright (C) 2006 - 2012 PHPExcel
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @category   PHPExcel
- * @package    PHPExcel
- * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    ##VERSION##, ##DATE##
- */
-
-/** Error reporting */
-error_reporting(E_ALL);
-ini_set('display_errors', TRUE);
-ini_set('display_startup_errors', TRUE);
-date_default_timezone_set('Europe/London');
-
-if (PHP_SAPI == 'cli')
-	die('This example should only be run from a Web Browser');
-
-/** Include PHPExcel */
-require_once '../Classes/PHPExcel.php';
-
-
-// Create new PHPExcel object
-$objPHPExcel = new PHPExcel();
-
-// Set document properties
-$objPHPExcel->getProperties()->setCreator("Maarten Balliauw")
-							 ->setLastModifiedBy("Maarten Balliauw")
-							 ->setTitle("Office 2007 XLSX Test Document")
-							 ->setSubject("Office 2007 XLSX Test Document")
-							 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
-							 ->setKeywords("office 2007 openxml php")
-							 ->setCategory("Test result file");
-
-
-// Add some data
-$objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'Hello')
-            ->setCellValue('B2', 'world!')
-            ->setCellValue('C1', 'Hello')
-            ->setCellValue('D2', 'world!');
-
-// Miscellaneous glyphs, UTF-8
-$objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A4', 'Miscellaneous glyphs')
-            ->setCellValue('A5', 'éàèùâêîôûëïüÿäöüç');
-
-// Rename worksheet
-$objPHPExcel->getActiveSheet()->setTitle('Simple');
-
-
-// Set active sheet index to the first sheet, so Excel opens this as the first sheet
-$objPHPExcel->setActiveSheetIndex(0);
-
-
-// Redirect output to a client’s web browser (Excel2007)
-header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="01simple.xlsx"');
-header('Cache-Control: max-age=0');
-
-$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-$objWriter->save('php://output');
-exit;
-
 ?>
