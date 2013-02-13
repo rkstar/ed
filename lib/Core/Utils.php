@@ -10,6 +10,15 @@
 
 class Utils
 {
+	const alphabet = array(
+		"a","b","c","d","e","f","g","h","i","j","k","l","m",
+		"n","o","p","q","r","s","t","u","v","w","x","y","z"
+	);
+	
+	const numbers  = array(0,1,2,3,4,5,6,7,8,9);
+
+
+
 	// get a list of country codes
 	public static function getCountryCodes()
 	{
@@ -197,24 +206,20 @@ class Utils
 	// generate a random password
 	public static function randomPassword( $type="alphanumeric", $length=8 )
 	{
-		$numbers = array(0,1,2,3,4,5,6,7,8,9);
-		$letters = array("a","b","c","d","e","f","g","h","i","j","k","l","m",
-						 "n","o","p","q","r","s","t","u","v","w","x","y","z"
-					);
 		// generate a password based on the type
 		switch( $type )
 		{
 			case "alphanumeric":
 			default:
-				$available = array_merge($numbers,$letters);
+				$available = array_merge(self::numbers,self::alphabet);
 			break;
 			
 			case "numeric":
-				$available = $numbers;
+				$available = self::numbers;
 			break;
 			
 			case "alpha":
-				$available = $letters;
+				$available = self::alphabet;
 			break;
 		}
 		
