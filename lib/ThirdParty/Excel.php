@@ -19,11 +19,15 @@ ed::import("ThirdParty.PHPExcel");
 class Excel extends PHPExcel
 {
 	private $_columns;
-	private $_map;
 	private $_rows = 0;
+	private $_map;
 
 	public function __construct()
 	{
+		// init the map so that we can keep track of column numbers to
+		// column heading keys
+		$this->_map = new Object();
+
 		// run the parent constructor
 		parent::__construct();
 	}
@@ -73,9 +77,34 @@ class Excel extends PHPExcel
 				$this->setCategory($value);
 			break;
 
+			// in order to set the column titles for this sheet,
+			// you will need to pass in either a hash or an object
+			// with keys mapped to column heading titles
+			// eg.
+			//
+			// $cols->firstname = "First Name";
+			// $cols->lastname  = "Last Name";
+			//
+			// OR
+			//
+			// array(
+			//    "firstname" => "First Name",
+			//    "lastname"  => "Last Name"
+			// );
+			// { firstname:"First Name", lastname:"Last Name" }
 			case "columns":
-				if( !is_array($value) ) { return; }
-				$this->_columns = $value;
+				if( !is_array($value) && !is_object($value) ) { return; }
+				$this->_columns = array();
+
+				$vars = (is_object($value)) ? get_object_vars($value) : $value;
+				while( list($k,$v) = each($vars) )
+				{
+					$o = new Object(array(
+						"key"	=> $k,
+						"title"	=> $v
+					));
+					array_push($this->_columns, $o);
+				}
 			break;
 
 			case "description":
@@ -126,12 +155,11 @@ class Excel extends PHPExcel
 			$this->_rows++;
 			for( $i=0; $i<count($this->_columns); $i++ )
 			{
-				$column = strtoupper($alpha[$i]).($this->_rows);
-				$title  = $this->_columns[$i];
 				// map our headers to column fields (a1, b1, etc...)
-				if( !$this->_map ) { $this->_map = new Object(); }
-				$this->_map->{$title} = $column;
-				$sheet->setCellValue($column, $title);
+				$this->_columns[$i]->letter = strtoupper($alpha[$i]);
+				$this->_map->{$this->_columns[$i]->key} = $this->_columns[$i]->letter;
+				// add the column contents to the active sheet
+				$sheet->setCellValue($this->_columns[$i]->letter.$this->_rows, $this->_columns[$i]->title);
 			}
 		}
 
@@ -140,7 +168,8 @@ class Excel extends PHPExcel
 		$data = (is_object($data)) ? get_object_vars($data) : $data;
 		while( list($k,$v) = each($data) )
 		{
-			$sheet->setCellValue( $this->_map{$k}.$this->_rows, $v );
+			$column_letter = (is_object($this->_map)) ? $this->_map->{$k} : strtoupper(array_shift($alpha));
+			$sheet->setCellValue( $column_letter.$this->_rows, $v );
 		}
 	}
 
