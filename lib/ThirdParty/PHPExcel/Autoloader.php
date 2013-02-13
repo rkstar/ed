@@ -53,7 +53,7 @@ class PHPExcel_Autoloader
 // MODIFIED BY DAVID FUDGE
 //
 // __autoload is deprecated
-return spl_autoload_register(self::Load);
+return spl_autoload_register(PHPExcel_Autoloader::Load);
         // if (function_exists('__autoload')) {
         //     //    Register any existing autoloader function with SPL, so we don't get any clashes
         //     spl_autoload_register('__autoload');
