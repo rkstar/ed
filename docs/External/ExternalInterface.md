@@ -8,7 +8,7 @@ require_once(dirname(__FILE__)."/config/appconfig.php");
 ed::import("External.ExternalInterface");
 
 $ei = new ExternalInterface("http://myexternalapi.com/curl_me_here");
-$ei->postvars = array(
+$ei->postdata = array(
 	"firstname" => "ed",
 	"lastname"  => "thehorse"
 );
@@ -33,7 +33,7 @@ $response = $ei->execute();
 #### options
 > An array of cURL options to be set when executing.
 
-#### postvars
+#### postdata
 > A hash of properties and values to be sent to the server via the cURL request.
 
 ## Functions
