@@ -77,7 +77,7 @@ return spl_autoload_register("PHPExcel_Autoloader::Load");
         // MODIFIED BY DAVID FUDGE
         //
         // made this mod so that it would fit into the ed library BOOYAH.
-        ed::import("ThirdParty.PHPExcel.".str_replace("_",".",$pClassName));
+        ed::import("ThirdParty.".str_replace("_",".",$pClassName));
 
         // $pClassFilePath = PHPEXCEL_ROOT .
         //                   str_replace('_',DIRECTORY_SEPARATOR,$pClassName) .
