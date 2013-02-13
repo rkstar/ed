@@ -78,10 +78,14 @@ return spl_autoload_register("PHPExcel_Autoloader::Load");
                           str_replace('_',DIRECTORY_SEPARATOR,$pClassName) .
                           '.php';
 
+print "including file: ".$pClassFilePath."<br />\n";
+
         if ((file_exists($pClassFilePath) === FALSE) || (is_readable($pClassFilePath) === FALSE)) {
             //    Can't load
             return FALSE;
         }
+
+print "required....<br />\n";
 
         require($pClassFilePath);
     }   //    function Load()
