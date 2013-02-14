@@ -174,19 +174,19 @@ class Excel extends PHPExcel
 	}
 
 	// write out the excel sheet
-	public function save( $filename="report.xls",  $download=true, $type="Excel5" )
+	public function save( $filepath="report.xlsx",  $download=true, $type="Excel5" )
 	{
 		if( $download && !headers_sent() )
 		{
 			// Redirect output to a client’s web browser (Excel2007)
 			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-			header('Content-Disposition: attachment;filename="'.$filename.'"');
+			header('Content-Disposition: attachment;filename="'.substr($filepath,strrpos($filepath,"/")+1).'"');
 			header('Cache-Control: max-age=0');
 		}
 		elseif( !$download && !is_writeable(APPDIR) ) { return false; }
 
 		$writer = PHPExcel_IOFactory::createWriter($this, $type);
-		$path = ($download) ? "php://output" : APPDIR."/".$filename;
+		$path = ($download) ? "php://output" : APPDIR."/".$filepath;
 		$writer->save($path);
 
 		return true;
