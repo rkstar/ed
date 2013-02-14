@@ -30,6 +30,8 @@ class Excel extends PHPExcel
 
 		// run the parent constructor
 		parent::__construct();
+
+		$this->setActiveSheetIndex(0);
 	}
 
 	public function __get( $name )
