@@ -148,10 +148,10 @@ class Database extends Object
 		$q  = "select ";
 		$q .= $qobject->fields." from ".$qobject->table;
 		$q .= (strlen($qobject->getCondition()) > 0) ? " where ".$qobject->getCondition() : "";
-		$q .= (strlen($qobject->getGroup()) > 0) ? " group by ".$qobject->getGroup() : "";
+		$q .= (strlen($qobject->groupBy) > 0) ? " group by ".$qobject->groupBy : "";
 		$q .= (strlen($qobject->orderBy) > 0) ? " order by ".$qobject->orderBy : "";
 		// condition by which we'll add the asd/desc delimiter
-		if( (strlen($qobject->getGroup()) > 0) || (strlen($qobject->orderBy) > 0) )
+		if( (strlen($qobject->groupBy) > 0) || (strlen($qobject->orderBy) > 0) )
 		{
 			$q .= ($qobject->direction=="DESC") ? " DESC" : " ASC";
 		}
