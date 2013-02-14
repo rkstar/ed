@@ -76,7 +76,7 @@ class Excel extends PHPExcel
 			// break;
 
 			case "category":
-				$this->setCategory($value);
+				$this->getProperties()->setCategory($value);
 			break;
 
 			// in order to set the column titles for this sheet,
@@ -110,7 +110,7 @@ class Excel extends PHPExcel
 			break;
 
 			case "description":
-				$this->setDescription($value);
+				$this->getProperties()->setDescription($value);
 			break;
 
 			case "keywords":
