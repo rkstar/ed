@@ -31,7 +31,7 @@ class Excel extends PHPExcel
 		// run the parent constructor
 		parent::__construct();
 
-		$this->setActiveSheetIndex(0);
+		$this->sheet = 0;
 	}
 
 	public function __get( $name )
@@ -114,13 +114,13 @@ class Excel extends PHPExcel
 			break;
 
 			case "keywords":
-				$this->setKeywords($value);
+				$this->getProperties()->setKeywords($value);
 			break;
 
 			case "modifiedby":
 			case "modified_by":
 			case "mod_author":
-				$this->setLastModifiedBy($value);
+				$this->getProperties()->setLastModifiedBy($value);
 			break;
 
 			case "sheet":
@@ -131,11 +131,11 @@ class Excel extends PHPExcel
 			break;
 
 			case "subject":
-				$this->setSubject($value);
+				$this->getProperties()->setSubject($value);
 			break;
 
 			case "title":
-				$this->setTitle($value);
+				$this->getProperties()->setTitle($value);
 			break;
 		}
 	}
