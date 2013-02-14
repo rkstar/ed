@@ -180,7 +180,7 @@ class Excel extends PHPExcel
 		{
 			// Redirect output to a client’s web browser (Excel2007)
 			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-			header('Content-Disposition: attachment;filename="'.substr($filepath,strrpos($filepath,"/")+1).'"');
+			header('Content-Disposition: attachment;filename="'.substr($filepath,strrpos($filepath,"/")).'"');
 			header('Cache-Control: max-age=0');
 		}
 		elseif( !$download && !is_writeable(APPDIR) ) { return false; }
