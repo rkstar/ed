@@ -59,6 +59,13 @@ class Excel extends PHPExcel
 				return $this->getSecurity();
 			break;
 
+			case "sheet":
+			case "active_sheet":
+			case "activesheet":
+			case "activesheetindex":
+				return $this->getActiveSheetIndex();
+			break;
+
 			case "sheets":
 				return $this->getSheetCount();
 			break;
@@ -173,6 +180,8 @@ class Excel extends PHPExcel
 			$column_letter = (is_object($this->_map)) ? $this->_map->{$k} : strtoupper(array_shift($alpha));
 			$sheet->setCellValue( $column_letter.$this->_rows, $v );
 		}
+
+		return true;
 	}
 
 	// write out the excel sheet
