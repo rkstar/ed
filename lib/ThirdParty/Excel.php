@@ -144,7 +144,7 @@ class Excel extends PHPExcel
 	// to set data on the row
 	public function add( $data )
 	{
-		if( !is_object($data) || !is_array($data) ) { return false; }
+		if( !is_object($data) && !is_array($data) ) { return false; }
 
 		// get a reference to the active spreadsheet
 		$sheet = $this->getActiveSheet();
