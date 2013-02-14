@@ -146,7 +146,7 @@ class Database extends Object
 		
 		// start the query
 		$q  = "select ";
-		$q .= $qobject->selectFields." from ".$qobject->table;
+		$q .= $qobject->fields." from ".$qobject->table;
 		$q .= (strlen($qobject->getCondition()) > 0) ? " where ".$qobject->getCondition() : "";
 		$q .= (strlen($qobject->getGroup()) > 0) ? " group by ".$qobject->getGroup() : "";
 		$q .= (strlen($qobject->orderBy) > 0) ? " order by ".$qobject->orderBy : "";

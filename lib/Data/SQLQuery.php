@@ -65,7 +65,7 @@ class SQLQuery extends Object
 		$this->_public_properties = new Object(array(
 			"table"		=> "",
 			"limit"		=> null,
-			"selectFields"	=> "*",
+			"fields"	=> "*",
 			"orderBy"	=> null,
 			"groupBy"	=> null,
 			"direction"	=> null,
