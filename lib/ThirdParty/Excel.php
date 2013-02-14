@@ -174,7 +174,7 @@ class Excel extends PHPExcel
 	}
 
 	// write out the excel sheet
-	public function save( $filepath="report.xlsx",  $download=true, $type="Excel5" )
+	public function save( $filepath="report.xlsx",  $download=true, $type="Excel2007" )
 	{
 		if( $download && !headers_sent() )
 		{
