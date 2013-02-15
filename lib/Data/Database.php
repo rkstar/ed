@@ -151,7 +151,7 @@ class Database extends Object
 		$q .= (strlen($qobject->groupBy) > 0) ? " group by ".$qobject->groupBy : "";
 		$q .= (strlen($qobject->orderBy) > 0) ? " order by ".$qobject->orderBy : "";
 		// condition by which we'll add the asd/desc delimiter
-		if( ((strlen($qobject->groupBy) > 0) || (strlen($qobject->orderBy) > 0)) && ($qobject->direction != null) )
+		if( ((strlen($qobject->groupBy) > 0) || (strlen($qobject->orderBy) > 0)) && $qobject->direction )
 		{
 			$q .= ($qobject->direction=="DESC") ? " DESC" : " ASC";
 		}
