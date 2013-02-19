@@ -24,10 +24,6 @@ class Excel extends PHPExcel
 
 	public function __construct()
 	{
-		// init the map so that we can keep track of column numbers to
-		// column heading keys
-		$this->_map = new Object();
-
 		// run the parent constructor
 		parent::__construct();
 
@@ -155,13 +151,17 @@ class Excel extends PHPExcel
 
 		// get a reference to the active spreadsheet
 		$sheet = $this->getActiveSheet();
-		$alpha = Utils::alphabet;
+		$alpha = Utils::$alphabet;
 
 		// check to see if we have already added the column headings to
 		// this spreadsheet or not
-		if( $this->_rows < 1 )
+		if( ($this->_rows < 1) && is_array($this->_columns) && (count($this->_columns) > 0) )
 		{
 			$this->_rows++;
+			// init the map so that we can keep track of column numbers to
+			// column heading keys
+			$this->_map = new Object();
+
 			for( $i=0; $i<count($this->_columns); $i++ )
 			{
 				// map our headers to column fields (a1, b1, etc...)
@@ -177,8 +177,16 @@ class Excel extends PHPExcel
 		$data = (is_object($data)) ? get_object_vars($data) : $data;
 		while( list($k,$v) = each($data) )
 		{
-			$column_letter = (is_object($this->_map)) ? $this->_map->{$k} : strtoupper(array_shift($alpha));
-			$sheet->setCellValue( $column_letter.$this->_rows, $v );
+			if( is_object($this->_map) )
+			{
+				// skip any data that does not fit into our column headings
+				if( !$this->_map->{$k} ) { continue; }
+				$sheet->setCellValue( $this->_map->{$k}.$this->_rows, $v);
+			}
+			else
+			{
+				$sheet->setCellValue( strtoupper(array_shift($alpha)).$this->_rows, $v );
+			}
 		}
 
 		return true;
