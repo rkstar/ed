@@ -211,15 +211,15 @@ class Utils
 		{
 			case "alphanumeric":
 			default:
-				$available = array_merge(self::numbers,self::alphabet);
+				$available = array_merge(self::$numbers,self::$alphabet);
 			break;
 			
 			case "numeric":
-				$available = self::numbers;
+				$available = self::$numbers;
 			break;
 			
 			case "alpha":
-				$available = self::alphabet;
+				$available = self::$alphabet;
 			break;
 		}
 		
