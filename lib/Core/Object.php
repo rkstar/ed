@@ -63,8 +63,8 @@ class Object
 		return $output . "</pre>";
 	}
 
-	public function json( $exceptions=array() ) { return $this->jsonize($exceptions); }
-	public function jsonize( $exceptions=array() )
+	public function json( $exceptions=array(), $callback=NULL ) { return $this->jsonize($exceptions, $callback); }
+	public function jsonize( $exceptions=array(), $callback=NULL )
 	{
 		$object = new Object();
 		foreach ($this as $key => $value)
@@ -72,7 +72,8 @@ class Object
 			if( in_array($key, $exceptions) ) { continue; }
 			$object->$key = $value;
 		}
-		return json_encode($object);
+		$json_string = json_encode($object);
+		return ($callback) ? $callback."(".$json_string.")" : $json_string;
 	}
 }
 ?>

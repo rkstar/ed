@@ -31,8 +31,8 @@ print $object->name.", ".$object->lastname;	// prints 'ed, the enabler.'
 #### __construct( [hash_array] )
 > Returns an instance of this object class.  Optionally, you can provide a hash array of properties to be added to this object.  Because it automatically extends the `stdClass` object, you also set properties manually on the object instance.
 
-#### json()
-> Returns a JSON encoded representation of the object instance.
+#### json( [exceptions, callback] )
+> Returns a JSON encoded representation of the object instance.  Optionally, you can provide an array of object properties you DO NOT wish to have included in your JSON string.  You can also specify a callback function; this is useful when returning data for JSONP calls.
 
 #### jsonize()
 > Alias to `Object->json()`.
