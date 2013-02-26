@@ -2,3 +2,4 @@
 ed-library.sublime-project
 ed-library.sublime-workspace
 lib/ThirdParty/AirMiles.php
+lib/Security/Encryption.php
