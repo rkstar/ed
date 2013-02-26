@@ -63,9 +63,10 @@ class Object
 		return $output . "</pre>";
 	}
 
-	public function json( $exceptions=array(), $callback=NULL ) { return $this->jsonize($exceptions, $callback); }
-	public function jsonize( $exceptions=array(), $callback=NULL )
+	public function json( $exceptions=NULL, $callback=NULL ) { return $this->jsonize($exceptions, $callback); }
+	public function jsonize( $exceptions=NULL, $callback=NULL )
 	{
+		$exceptions = ($exceptions) ? $exceptions : array();
 		$object = new Object();
 		foreach ($this as $key => $value)
 		{
