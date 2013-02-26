@@ -60,10 +60,6 @@ The primary documentation is split up in to multiple files, due to the size of t
 
 * [**External.ExternalInterface**](https://github.com/rkstar/ed/tree/master/docs/External/ExternalInterface.md): An easy-to-use module that takes care of the headaches associated with [**PHP cURL**](http://php.net/curl) requests.
 
-### Security Modules
-
-* [**Security.Encryption**](https://github.com/rkstar/ed/tree/master/docs/Security/Encryption.md): Encryption module with static encrypt and decrypt methodds.
-
 ### Third Party Modules
 
 * [**ThirdParty.Facebook**](https://github.com/rkstar/ed/tree/master/docs/ThirdParty/Facebook.md): Facebook API module
