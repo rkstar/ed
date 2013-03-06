@@ -62,8 +62,7 @@ The primary documentation is split up in to multiple files, due to the size of t
 
 ### Third Party Modules
 
-* [**ThirdParty.Facebook**](https://github.com/rkstar/ed/tree/master/docs/ThirdParty/Facebook.md): Facebook API module
-* [**ThirdParty.Google**](https://github.com/rkstar/ed/tree/master/docs/ThirdParty/Google.md): Google API module
+* [**ThirdParty.Excel**](https://github.com/rkstar/ed/tree/master/docs/ThirdParty/Excel.md): PHPExcel API module
 * [**ThirdParty.Mailer**](https://github.com/rkstar/ed/tree/master/docs/ThirdParty/Mailer.md): PHPMailer API module
 
 ### Utility Modules
