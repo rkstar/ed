@@ -54,7 +54,7 @@ $excel->save("myreports.xlsx",true);
 
 ## Dependencies
 
-* [**PHExcel**](http://phpexcel.codeplex.com/): An open source PHP library to work with Microsoft Excel files
+* [**PHPExcel**](http://phpexcel.codeplex.com/): An open source PHP library to work with Microsoft Excel files
 * [**Core.Object**](https://github.com/rkstar/ed/tree/master/docs/Core/Object.md): An extension of PHP's *__stdClass__*
 
 ## Properties
