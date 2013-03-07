@@ -273,7 +273,7 @@ class Database extends Object
 		$qobject->query = $q;
 		// set and execute the query which will allow us to automatically insert
 		// if the update does not work...
-		$r = $this->execute($qobject, $q,$params);
+		$r = $this->execute($qobject, $q,$bind_params);
 		return ($r) ? $r : $this->insert($qobject);
 	}
 	
