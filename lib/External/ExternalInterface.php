@@ -13,19 +13,28 @@ class ExternalInterface
 {
 	public $options;
 	public $url;
+	public $opts;
 	public $postdata;
 
-	public function __construct( $url="" ) { $this->url = $url; }
+	public function __construct( $url="", $opts=null )
+	{
+		$this->url  = $url;
+		$this->opts = $opts || new Object();
+	}
 
 	public function exec() { return $this->execute(); }
 	public function execute()
 	{
 		$ch = curl_init();
+		// get object vars and loop thru them
+		$opts = get_object_vars($this->opts);
+		while( list($k,$v) = each($opts) ) { curl_setopt($ch, $k, $v); }
 		// set some default curl options
+		curl_setopt($ch, CURLOPT_POST, $this->opts->CURLOPT_POST || true);
+		// static opts
 		curl_setopt($ch, CURLOPT_URL, $this->url);
-		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->postdata));
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->postdata));
 		// check for user options and set those... they may override what we have just done
 		if( is_array($this->options) && (count($this->options) > 0) )
 		{
