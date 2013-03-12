@@ -19,7 +19,7 @@ class ExternalInterface
 	public function __construct( $url="", $opts=null )
 	{
 		$this->url  = $url;
-		$this->opts = $opts || new Object();
+		$this->opts = $opts || new stdClass;
 	}
 
 	public function exec() { return $this->execute(); }
