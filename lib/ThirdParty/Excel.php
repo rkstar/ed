@@ -169,13 +169,6 @@ class Excel extends PHPExcel
 
 		return $this->sheetAsObjectArray($use_column_headings);
 	}
-	public function getSheetByName( $name, $use_column_headings=true )
-	{
-		if( !isset($name) || (strlen($name) < 1) ) { return false; }
-		$this->setActiveSheetByName($name);
-
-		return $this->sheetAsObjectArray($use_column_headings);
-	}
 
 	private function sheetAsObjectArray( $use_column_headings=true )
 	{
