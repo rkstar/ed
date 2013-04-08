@@ -59,6 +59,9 @@ $excel->save("myreports.xlsx",true);
 
 ## Properties
 
+#### object
+> the raw PHPExcel object returned by the PHPExcel_IOFactory::load function
+
 #### columns
 > get or set the column headings for this worksheet
 
@@ -91,6 +94,9 @@ $excel->save("myreports.xlsx",true);
 
 
 ## Functions
+
+#### load( filepath [, return_as_array, use_column_headings] )
+> Loads an Excel file from *filepath* and returns either a raw PHPExcel object, an array of row arrays, or an array of objects similar to how [**SQLResult**](https://github.com/rkstar/ed/tree/master/docs/Data/SQLResult.md) deals with records in a database.  The [**SQLResult**](https://github.com/rkstar/ed/tree/master/docs/Data/SQLResult.md)-like array of objects will be returned if the `use_column_headings` parameter is `true`.
 
 #### add( data )
 > Adds a row of data to the active worksheet.  This function will automatically add your column headings (if set) when you add the first row of data.  Data passed to this function must be either an `Object` or a hash `Array`.
