@@ -18,6 +18,7 @@ ed::import("ThirdParty.PHPExcel");
 
 class Excel extends PHPExcel
 {
+	private $_object;
 	private $_columns;
 	private $_rows = 0;
 	private $_map;
@@ -34,6 +35,10 @@ class Excel extends PHPExcel
 	{
 		switch( strtolower($name) )
 		{
+			case "object":
+				return $this->_object;
+			break;
+
 			case "activesheet":
 			case "sheet":
 				return $this->getActiveSheet();
@@ -77,6 +82,10 @@ class Excel extends PHPExcel
 			// case "author":
 			// 	$this->setAuthor($value);
 			// break;
+
+			case "object":
+				$this->_object = $value;
+			break;
 
 			case "category":
 				$this->getProperties()->setCategory($value);
@@ -144,12 +153,13 @@ class Excel extends PHPExcel
 	}
 
 	// load in a new excel sheet
-	public function load( $filepath )
+	public function load( $filepath, $return_active_sheet_as_array=true )
 	{
 		if( is_null($filepath) || (strlen($filepath) < 1) || !file_exists($filepath) ) { return false; }
 
 		// the io factory to load in the file and return a phpexcel object
-		return PHPExcel_IOFactory::load($filepath);
+		$this->object = PHPExcel_IOFactory::load($filepath);
+		return ($return_active_sheet_as_array) ? $this->object->getActiveSheet()->toArray() : $this->object;
 	}
 
 	// take in an object or hash array and iterate through it
