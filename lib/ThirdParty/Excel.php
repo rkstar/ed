@@ -143,6 +143,15 @@ class Excel extends PHPExcel
 		}
 	}
 
+	// load in a new excel sheet
+	public function load( $filepath )
+	{
+		if( is_null($filepath) || (strlen($filepath) < 1) || !file_exists($filepath) ) { return false; }
+
+		// the io factory to load in the file and return a phpexcel object
+		return PHPExcel_IOFactory::load($filepath);
+	}
+
 	// take in an object or hash array and iterate through it
 	// to set data on the row
 	public function add( $data )
