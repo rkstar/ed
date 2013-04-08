@@ -159,7 +159,40 @@ class Excel extends PHPExcel
 
 		// the io factory to load in the file and return a phpexcel object
 		$this->object = PHPExcel_IOFactory::load($filepath);
-		return ($return_active_sheet_as_array) ? $this->object->getActiveSheet()->toArray() : $this->object;
+		return ($return_active_sheet_as_array) ? $this->getSheet() : $this->object;
+	}
+
+	public function getSheet( $number=0, $use_column_headings=true )
+	{
+		$sheet = ($number > -1) ? $number : 0;
+		$this->setActiveSheetIndex($sheet);
+
+		return $this->sheetAsObjectArray($use_column_headings);
+	}
+	public function getSheetByName( $name, $use_column_headings=true )
+	{
+		if( !isset($name) || (strlen($name) < 1) ) { return false; }
+		$this->setActiveSheetByName($name);
+
+		return $this->sheetAsObjectArray($use_column_headings);
+	}
+
+	private function sheetAsObjectArray( $use_column_headings=true )
+	{
+		$data = $this->object->getActiveSheet()->toArray();
+		if( !$use_column_headings ) { return $data; }
+
+		// loop through the array and set the column names
+		$results = array();
+		$columns = array_shift($data);
+		while( $row = array_shift($data) )
+		{
+			$o = new Object();
+			for( $i=0; $i<count($row); $i++ ) { $o->{$columns[$i]} = $row[$i]; }
+			array_push($results, $o);
+		}
+
+		return $results;
 	}
 
 	// take in an object or hash array and iterate through it
