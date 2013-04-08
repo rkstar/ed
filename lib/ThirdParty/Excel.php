@@ -153,13 +153,13 @@ class Excel extends PHPExcel
 	}
 
 	// load in a new excel sheet
-	public function load( $filepath, $return_active_sheet_as_array=true )
+	public function load( $filepath, $return_active_sheet_as_array=true, $use_column_headings=true )
 	{
 		if( is_null($filepath) || (strlen($filepath) < 1) || !file_exists($filepath) ) { return false; }
 
 		// the io factory to load in the file and return a phpexcel object
 		$this->object = PHPExcel_IOFactory::load($filepath);
-		return ($return_active_sheet_as_array) ? $this->getSheet() : $this->object;
+		return ($return_active_sheet_as_array) ? $this->getSheet(0, $use_column_headings) : $this->object;
 	}
 
 	public function getSheet( $number=0, $use_column_headings=true )
