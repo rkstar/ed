@@ -172,6 +172,8 @@ class Excel extends PHPExcel
 
 	private function sheetAsObjectArray( $use_column_headings=true )
 	{
+		if( !$this->object ) { return; }
+		
 		$data = $this->object->getActiveSheet()->toArray();
 		if( !$use_column_headings ) { return $data; }
 
