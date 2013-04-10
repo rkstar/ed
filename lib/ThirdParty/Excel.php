@@ -159,10 +159,10 @@ class Excel extends PHPExcel
 
 		// the io factory to load in the file and return a phpexcel object
 		$this->object = PHPExcel_IOFactory::load($filepath);
-		return ($return_active_sheet_as_array) ? $this->getSheet(0, $use_column_headings) : $this->object;
+		return ($return_active_sheet_as_array) ? $this->getLoadedSheet(0, $use_column_headings) : $this->object;
 	}
 
-	public function getSheet( $number=0, $use_column_headings=true )
+	public function getLoadedSheet( $number=0, $use_column_headings=true )
 	{
 		$sheet = ($number > -1) ? $number : 0;
 		$this->setActiveSheetIndex($sheet);
@@ -173,7 +173,7 @@ class Excel extends PHPExcel
 	private function sheetAsObjectArray( $use_column_headings=true )
 	{
 		if( !$this->object ) { return; }
-		
+
 		$data = $this->object->getActiveSheet()->toArray();
 		if( !$use_column_headings ) { return $data; }
 
