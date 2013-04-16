@@ -19,7 +19,7 @@ class ExternalInterface
 	public function __construct( $url="", $opts=null )
 	{
 		$this->url  = $url;
-		$this->opts = $opts || new stdClass;
+		$this->opts = $opts !== null ? $opts : new stdClass;
 	}
 
 	public function exec() { return $this->execute(); }
@@ -30,7 +30,7 @@ class ExternalInterface
 		$opts = get_object_vars($this->opts);
 		while( list($k,$v) = each($opts) ) { curl_setopt($ch, $k, $v); }
 		// set some default curl options
-		curl_setopt($ch, CURLOPT_POST, $this->opts->CURLOPT_POST || true);
+		curl_setopt($ch, CURLOPT_POST, isset($this->opts->CURLOPT_POST) ? $this->opts->CURLOPT_POST : true);
 		// static opts
 		curl_setopt($ch, CURLOPT_URL, $this->url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
