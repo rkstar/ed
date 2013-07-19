@@ -60,9 +60,7 @@ class Excel extends PHPExcel
 				return $this->getSecurity();
 			break;
 
-			case "sheet":
-			case "active_sheet":
-			case "activesheet":
+			case "sheetindex":
 			case "activesheetindex":
 				return $this->getActiveSheetIndex();
 			break;
@@ -135,9 +133,7 @@ class Excel extends PHPExcel
 				$this->getProperties()->setLastModifiedBy($value);
 			break;
 
-			case "sheet":
-			case "active_sheet":
-			case "activesheet":
+			case "sheetindex":
 			case "activesheetindex":
 				$this->setActiveSheetIndex($value);
 			break;
