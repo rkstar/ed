@@ -17,19 +17,12 @@ class ed
 		// NO * ALLOWED!!
 		if( (strlen($module) < 1) || strstr($module,"*") ) { return false; }
 
-		// split the path on "."
-		$path = dirname(__FILE__)."/".join("/", explode(".", $module)).".php";
+		$path = (strstr($module, "/"))
+				? $module
+				: dirname(__FILE__)."/".join("/", explode(".", $module)).".php";
 
 		// check to see if this path is in our included files already
 		if( in_array($path, get_included_files()) ) { return false; }
-
-		// make sure file exists
-		// NOTE:
-		// file_exists, is_file, and stat WILL NOT WORK when the file
-		// is in the safe_mode_include_path
-		// we will have to skip this check and simply error if the
-		// require() fails.
-		// if( !file_exists($path) ) { return false; }
 
 		// get the file!
 		require_once($path);
