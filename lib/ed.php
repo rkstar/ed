@@ -17,7 +17,7 @@ class ed
 		// NO * ALLOWED!!
 		if( (strlen($module) < 1) || strstr($module,"*") ) { return false; }
 
-		$path = (strstr($module, "/"))
+		$path = (strstr($module, "/") !== false)
 				? $module
 				: dirname(__FILE__)."/".join("/", explode(".", $module)).".php";
 
