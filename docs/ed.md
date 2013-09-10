@@ -11,10 +11,15 @@ ed::import("ClassContainer.ClassName");
 ## Documentation Index
 
 * [Importing Classes](#importing-classes)
+* [Importing Classes Locally](#importing-classes-locally)
 
 ## Importing Classes
 
 Once you have included (or required) your base ed class, you can use the static `import` method to load any required classes and their associated dependencies.
+
+## Importing Classes Locally
+
+If you'd like to import files from outside of the ed "lib" folder, you can use the `local` method to load any classes and dependencies relative to the file ed was loaded from.
 
 *__NOTE__*
 There is a second legacy method in this class called `load` which acts identically to `import`.
