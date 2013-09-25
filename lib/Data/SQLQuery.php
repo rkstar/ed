@@ -71,6 +71,7 @@ class SQLQuery extends Object
 			"direction"	=> null,
 			"record"	=> null,
 			"query"		=> "",
+			"bind_params" => array(),
 			"errorInfo"	=> null
 		));
 		
@@ -100,12 +101,12 @@ class SQLQuery extends Object
 		if( is_null($this->_private_properties->authMethod) )
 		{
 			$this->_private_properties->authMethod = new XML("<query/>");
+			$linkage = null;
 		}
 		// group sanity
 		if( !is_array($this->_private_properties->authGroups) )
 		{
 			$this->_private_properties->authGroups = array();
-			$linkage = null;
 		}
 		// check if there is an open auth group
 		$addto = (count($this->_private_properties->authGroups) > 0)
@@ -148,9 +149,10 @@ class SQLQuery extends Object
 				 ? $this->_private_properties->authGroups[count($this->_private_properties->authGroups) - 1]
 				 : $this->_private_properties->authMethod;
 		// add the field child
-		$child = $addto->addChild($field,$value);
-		$child->addAttribute("operator",$operator);
-		$child->addAttribute("linkage",$linkage);
+		$child = $addto->addChild($field);
+		$child->addAttribute("operator", $operator);
+		$child->addAttribute("linkage", $linkage);
+		$child->addAttribute("value", $value);
 	}
 	private function addToAuthMethod( $objectOrArray )
 	{
@@ -192,7 +194,7 @@ class SQLQuery extends Object
 		if( defined("LASTMODIFIED") ) { $this->setValue(LASTMODIFIED, "/now()/"); }
 		if( defined("IPADDRESS") ) { $this->setValue(IPADDRESS, getenv("REMOTE_ADDR")); }
 	}
-	
+
 	// generate a safe query string condition from our auth methods for use
 	// in "select, update, and delete" queries
 	public function getCondition( $node = false )
@@ -206,32 +208,30 @@ class SQLQuery extends Object
 		// sanity
 		if( !$node || !$node->children() ) { return $authString; }
 		// loop thru the child nodes of our authMethod XML object
+		$bind_params = array();
 		$i=0;
 		foreach( $node->children() as $child )
 		{
 			// special case for "authGroup" nodes
 			if( $child->getName() == "authGroup" )
 			{
-				$authString .= $child->attributes()->linkage." ( ";
-				$authString .= $this->getCondition($child);
-				$authString .= ")";
+				list($groupAuthString,$groupBindParams) = $this->getCondition($child);
+				$authString .= $child->attributes()->linkage." ( ".$groupAuthString." ) ";
+				$bind_params = array_merge($bind_params, $groupBindParams);
 			}
 			else
 			{
-				// linkage...
+				$param = $child->getName()."_".Utils::random(5);
 				$authString .= ($i > 0) ? $child->attributes()->linkage." " : "";
-				// add the name of the field
-				$authString .= $child->getName()." ".$child->attributes()->operator." ";
-				// check for literal field values
-				$authString .= ((substr($child,0,1)=="/") && (substr($child,-1)=="/")) ? substr($child,1,-1) : "\"".$child."\"";
+				$authString .= $child->getName()." ".$child->attributes()->operator." :".$param;
+				$bind_params[$param] = (string)$child->attributes()->value;
 			}
 			$authString .= " ";
-			
-			// increment i
+
 			$i++;
 		}
 		
-		return substr($authString,0,-1);	// get rid of trailing space...
+		return array(substr($authString,0,-1), $bind_params);
 	}
 
 	public function raw( $q ) { return $this->rawQuery($q); }

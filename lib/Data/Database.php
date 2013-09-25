@@ -88,16 +88,29 @@ class Database extends Object
 		
 		return $fieldList;
 	}
+
+	private function buildRawQuery( $query, $bind_params=null )
+	{
+		if( is_null($bind_params) ) { return $query; }
+
+		while( list($k,$v) = each($bind_params) )
+		{
+			$value = ((substr($v,0,1)==="/") && (substr($v,-1)==="/")) ? substr($v,1,-1) : "\"".$v."\"";
+			$query = str_replace(":".$k, $value, $query);
+		}
+
+		return $query;
+	}
 	
 	// execute the query
-	public function execute( $qobject, $raw_query, $bind_params=null )
+	public function execute( $qobject, $query, $bind_params=null )
 	{
 		// sanity
-		if( strlen($raw_query) < 1 ) { return false; }
+		if( strlen($query) < 1 ) { return false; }
 		// more sanity
 		$this->reconnect();
 
-		$sth = $this->pdo->prepare($raw_query);
+		$sth = $this->pdo->prepare($query);
 		if( !$sth )
 		{
 			$err = $this->pdo->errorInfo();
@@ -112,11 +125,19 @@ class Database extends Object
 		// check for and act on bind_params
 		if( !is_null($bind_params) && is_array($bind_params) )
 		{
-			while( list($k,$v) = each($bind_params) ) { $sth->bindParam($k,$v); }
+			while( list($k,$v) = each($bind_params) )
+			{
+				// push through the correct type of value
+				((substr($v,0,1)==="/") && (substr($v,-1)==="/"))
+					? $sth->bindValue(":".$k, substr($v,1,-1), PDO::PARAM_INT)
+					: $sth->bindValue(":".$k, $v, PDO::PARAM_STR);
+			}
 		}
 
 		// execute the statement!
-		if( !$sth->execute() )
+		$successful = $sth->execute();
+		$raw_query  = $this->buildRawQuery($sth->queryString, $bind_params);
+		if( !$successful )
 		{
 			$err = $sth->errorInfo();
 			$qobject->errorInfo = new Object(array(
@@ -124,6 +145,7 @@ class Database extends Object
 				"errorcode"	=> $err[1],
 				"message"	=> $err[2]
 			));
+			$qobject->query = $raw_query;
 			return null;
 		}
 
@@ -143,11 +165,12 @@ class Database extends Object
 	{
 		// sanity
 		if( !is_object($qobject) ) { return false; }
-		
+
+		list($auth_string, $bind_params) = $qobject->getCondition();
 		// start the query
 		$q  = "select ";
 		$q .= $qobject->fields." from ".$qobject->table;
-		$q .= (strlen($qobject->getCondition()) > 0) ? " where ".$qobject->getCondition() : "";
+		$q .= (strlen($auth_string) > 0) ? " where ".$auth_string : "";
 		$q .= (strlen($qobject->groupBy) > 0) ? " group by ".$qobject->groupBy : "";
 		$q .= (strlen($qobject->orderBy) > 0) ? " order by ".$qobject->orderBy : "";
 		// condition by which we'll add the asd/desc delimiter
@@ -160,8 +183,8 @@ class Database extends Object
 
 		// set and execute the query
 		$qobject->query = $q;
-		//$qobject->setQuery($q);
-		return $this->execute($qobject, $q);
+		$qobject->bind_params = $bind_params;
+		return $this->execute($qobject, $q, $bind_params);
 	}
 
 	// insert a record into our database
