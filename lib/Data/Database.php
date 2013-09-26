@@ -2,7 +2,7 @@
 // Database.php
 // written by: David Fudge [rkstar@mac.com]
 // created on: November 1, 2008
-// updated on: October 21, 2012
+// updated on: September 25, 2013
 //
 // description:
 // this file gives us a simple and familiar interface to PDO
@@ -75,20 +75,6 @@ class Database extends Object
 		// does nothing... PDO does not have a disconnect method
 	}
 	
-	// get the available fields in a table
-	public function getTableFieldList( $table )
-	{
-		$fieldList = array();
-
-		$sql = new SQLQuery();
-		$q   = "show fields from ".$table;
-		if( !($r = $sql->rawQuery($q)) ) { return $fieldList; }
-		// we have fields... continue
-		while( $r->next() ) { array_push($fieldList,$r->Field); }
-		
-		return $fieldList;
-	}
-
 	private function buildRawQuery( $query, $bind_params=null )
 	{
 		if( is_null($bind_params) ) { return $query; }
@@ -188,77 +174,24 @@ class Database extends Object
 	}
 
 	// insert a record into our database
-	public function insert( $qobject )
+	public function insert( $qobject ) { $this->insertOrReplace($qobject, true); }
+	public function replace( $qobject ) { $this->insertOrReplace($qobject, false); }
+	private function insertOrReplace( $qobject, $is_insert=true )
 	{
 		// sanity
 		if( !is_object($qobject) ) { return false; }
 		
-		// get the available fields
-		$fieldList = $this->getTableFieldList($qobject->table);
-		
 		// start the query
-		$q = "insert into ".$qobject->table." ";
-		// loop thru the fields and prepare them for the insert query
-		$field_values = $qobject->getValues();
-		$bind_params  = array();
-		$fields = "(";
-		$values = "(";
-		while( list($k,$v) = each($field_values) )
-		{
-			// sanity :: make sure the field we're updating is available in the table
-			if( !in_array($k, $fieldList) ) { continue; }
-			// continue to build the query
-			$bind_params[$k] = $v;
-			// continue to set up the query
-			$fields .= $k.",";
-			$values .= ((substr($v,0,1)=="/") && (substr($v,-1)=="/"))
-						? substr($v,1,-1)."," : "\"".$v."\",";
-		}
-		$fields = substr($fields,0,-1).")";
-		$values = substr($values,0,-1).")";
-		$q = $q.$fields." values ".$values;
+		$q  = ($is_insert) ? "insert" : "replace";
+		$q .= " into ".$qobject->table." ";
+		// get the values and query string from query object
+		list($queryString, $bind_params) = $qobject->getInsertValues();
+		$q .= $queryString;
 
-		// set and execute the query
-		$qobject->query = $q;
+		// execute the query
 		if( !($r = $this->execute($qobject, $q, $bind_params)) ) { return false; }
 		// return the insert id
 		return ($r->lastInsertId === 0) ? true : $r->lastInsertId;
-	}
-	
-	// replace database record/s
-	public function replace( $qobject )
-	{
-		// sanity
-		if( !is_object($qobject) ) { return false; }
-		
-		// get the available fields
-		$fieldList = $this->getTableFieldList($qobject->table);
-		
-		// start the query
-		$q = "replace into ".$qobject->table." ";
-		// loop thru the fields and prepare them for the insert query
-		$field_values = $qobject->getValues();
-		$bind_params  = array();
-		$fields = "(";
-		$values = "(";
-		while( list($k,$v) = each($field_values) )
-		{
-			// sanity :: make sure the field we're updating is available in the table
-			if( !in_array($k, $fieldList) ) { continue; }
-			// continue to build the query
-			$bind_params[$k] = $v;
-			// continue to set up the query
-			$fields .= $k.",";
-			$values .= ((substr($v,0,1)=="/") && (substr($v,-1)=="/"))
-						? substr($v,1,-1)."," : "\"".$v."\",";
-		}
-		$fields = substr($fields,0,-1).")";
-		$values = substr($values,0,-1).")";
-		$q = $q.$fields." values ".$values;
-
-		// set and execute the query
-		$qobject->query = $q;
-		return $this->execute($qobject, $q, $bind_params);
 	}
 	
 	// update database record/s
@@ -267,36 +200,21 @@ class Database extends Object
 		// sanity
 		if( !is_object($qobject) ) { return false; }
 
-		// get the available fields
-		$fieldList = $this->getTableFieldList($qobject->table);
-		
 		// start the query
+		list($queryValues, $values_bind_params) = $qobject->getUpdateValues();
+		list($queryCondition, $condition_bind_params) = $qobject->getCondition();
 		$q  = "update ".$qobject->table." set ";
-		// loop thru the fields and prepare them for the update query
-		$field_values = $qobject->getValues();
-		$bind_params  = array();
-		$field_update = "";
-		while( list($k,$v) = each($field_values) )
-		{
-			// sanity :: make sure the field we're updating is available in the table
-			if( !in_array($k, $fieldList) ) { continue; }
-			// continue to build the query
-			$bind_params[$k] = $v;
-			// continue to set up the query
-			$field_update .= $k."=";
-			$field_update .= ((substr($v,0,1)=="/") && (substr($v,-1)=="/"))
-								? substr($v,1,-1)."," : "\"".$v."\",";
-		}
-		$field_update = substr($field_update,0,-1);
-		$q .= $field_update." where ".$qobject->getCondition();
+		$q .= $queryValues;
+		$q .= " where ";
+		$q .= $queryCondition;
+		$bind_params = array_merge($values_bind_params, $condition_bind_params);
+
 		// set a limit on our query
 		if( $qobject->limit > 0 ) { $q .= " limit ".$qobject->limit; }
-		
-		// set and execute the query
-		$qobject->query = $q;
-		// set and execute the query which will allow us to automatically insert
+
+		// execute the query which will allow us to automatically insert
 		// if the update does not work...
-		$r = $this->execute($qobject, $q,$bind_params);
+		$r = $this->execute($qobject, $q, $bind_params);
 		return ($r) ? $r : $this->insert($qobject);
 	}
 	
@@ -308,13 +226,14 @@ class Database extends Object
 		
 		// set up the query
 		$q  = "delete from ".$qobject->table." ";
-		$q .= "where ".$qobject->getCondition();
+		$q .= "where ";
+		list($queryString, $bind_params) = $qobject->getCondition();
+		$q .= $queryString;
 		// set the limit
 		if( $qobject->limit > 0 ) { $q .= " limit ".$qobject->limit; }
 		
-		// set and execute the query
-		$qobject->query = $q;
-		return ($this->execute($qobject, $q)) ? true : false;
+		// execute the query
+		return ($this->execute($qobject, $q, $bind_params)) ? true : false;
 	}
 }
 ?>

@@ -2,7 +2,7 @@
 // SQLQuery.php
 // written by: David Fudge [ rkstar@mac.com ]
 // created on: November 1, 2008
-// last modified: October 21, 2012
+// last modified: September 25, 2013
 //
 // description:
 // this file contains functions used for building an SQL query for our database API
@@ -93,7 +93,20 @@ class SQLQuery extends Object
 	{
 		$this->direction = "DESCEND";
 	}
-	
+
+	// get the available fields in a table
+	public function getTableFieldList( $table )
+	{
+		$fieldList = array();
+		$sql = new SQLQuery();
+		$q   = "show fields from ".$table;
+		if( !($r = $this->rawQuery($q)) ) { return $fieldList; }
+		// we have fields... continue
+		while( $r->next() ) { array_push($fieldList,$r->Field); }
+		
+		return $fieldList;
+	}
+
 	// open a new auth group
 	public function openAuthGroup( $linkage="and" )
 	{
@@ -184,17 +197,51 @@ class SQLQuery extends Object
 		}
 	}
 	public function setValue( $key, $value ) { $this->_field_values->$key = $value; }
-	public function getValues() { return $this->_field_values; }
-	
-	// automatic update fields
-	public function autoUpdate()
+	public function getInsertValues()
 	{
-		// auto update field names are defined in our database config file
-		// check for the field in our auto update field name
-		if( defined("LASTMODIFIED") ) { $this->setValue(LASTMODIFIED, "/now()/"); }
-		if( defined("IPADDRESS") ) { $this->setValue(IPADDRESS, getenv("REMOTE_ADDR")); }
+		// get the available fields
+		$fieldList   = $this->getTableFieldList($this->table);
+		$bind_params = array();
+		$fields = array();
+		$values = array();
+		while( list($k,$v) = each($this->_field_values) )
+		{
+			// sanity :: make sure the field we're updating is available in the table
+			if( !in_array($k, $fieldList) ) { continue; }
+			// continue to build the query
+			$key = $k."_".Utils::random(5);
+			$bind_params[$key] = $v;
+			// continue to set up the query
+			array_push($fields, $k);
+			array_push($values, ":".$key);
+		}
+		$queryString = "(".join(",",$field).") values (".join(",",$values).")";
+
+		return array($queryString, $bind_params);
 	}
 
+	public function getUpdateValues()
+	{
+		// get the available fields
+		$fieldList   = $this->getTableFieldList($this->table);
+		$bind_params = array();
+		$queryArray  = array();
+		$fields = array();
+		$values = array();
+		while( list($k,$v) = each($this->_field_values) )
+		{
+			// sanity :: make sure the field we're updating is available in the table
+			if( !in_array($k, $fieldLis) ) { continue; }
+			// continue to build the query
+			$key = $k."_".Utils::random(5);
+			$bind_params[$key] = $v;
+			// continue to set up the query
+			array_push($queryArray, $k."=".$key);
+		}
+
+		return array(join(",",$queryArray), $bind_params);
+	}
+	
 	// generate a safe query string condition from our auth methods for use
 	// in "select, update, and delete" queries
 	public function getCondition( $node = false )
@@ -232,6 +279,15 @@ class SQLQuery extends Object
 		}
 		
 		return array(substr($authString,0,-1), $bind_params);
+	}
+
+	// automatic update fields
+	public function autoUpdate()
+	{
+		// auto update field names are defined in our database config file
+		// check for the field in our auto update field name
+		if( defined("LASTMODIFIED") ) { $this->setValue(LASTMODIFIED, "/now()/"); }
+		if( defined("IPADDRESS") ) { $this->setValue(IPADDRESS, getenv("REMOTE_ADDR")); }
 	}
 
 	public function raw( $q ) { return $this->rawQuery($q); }
