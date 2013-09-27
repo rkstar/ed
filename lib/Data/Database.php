@@ -2,7 +2,7 @@
 // Database.php
 // written by: David Fudge [rkstar@mac.com]
 // created on: November 1, 2008
-// updated on: September 25, 2013
+// updated on: October 21, 2012
 //
 // description:
 // this file gives us a simple and familiar interface to PDO
@@ -96,6 +96,26 @@ class Database extends Object
 		// more sanity
 		$this->reconnect();
 
+		// check for and act on bind_params
+		if( !is_null($bind_params) && is_array($bind_params) )
+		{
+			$bp = array();
+			while( list($k,$v) = each($bind_params) )
+			{
+				// check for mysql functions
+				$isLiteral = ((substr($v,0,1)==="/") && (substr($v,-1)==="/"));
+				if( !$isLiteral ) { continue; }
+
+				$check_value = preg_replace('/[a-z_]/i', "", substr($v,1,-1));
+				if( (substr($check_value,0,1)==="(") && (substr($check_value,-1)===")") )
+				{
+					$query = str_replace(":".$k, substr($v,1,-1), $query);
+					unset($bind_params[$k]);
+				}
+			}
+			reset($bind_params);
+		}
+
 		$sth = $this->pdo->prepare($query);
 		if( !$sth )
 		{
@@ -174,8 +194,8 @@ class Database extends Object
 	}
 
 	// insert a record into our database
-	public function insert( $qobject ) { $this->insertOrReplace($qobject, true); }
-	public function replace( $qobject ) { $this->insertOrReplace($qobject, false); }
+	public function insert( $qobject ) { return $this->insertOrReplace($qobject, true); }
+	public function replace( $qobject ) { return $this->insertOrReplace($qobject, false); }
 	private function insertOrReplace( $qobject, $is_insert=true )
 	{
 		// sanity

@@ -2,7 +2,7 @@
 // SQLQuery.php
 // written by: David Fudge [ rkstar@mac.com ]
 // created on: November 1, 2008
-// last modified: September 25, 2013
+// last modified: October 21, 2012
 //
 // description:
 // this file contains functions used for building an SQL query for our database API
@@ -215,7 +215,7 @@ class SQLQuery extends Object
 			array_push($fields, $k);
 			array_push($values, ":".$key);
 		}
-		$queryString = "(".join(",",$field).") values (".join(",",$values).")";
+		$queryString = "(".join(",",$fields).") values (".join(",",$values).")";
 
 		return array($queryString, $bind_params);
 	}
@@ -226,17 +226,16 @@ class SQLQuery extends Object
 		$fieldList   = $this->getTableFieldList($this->table);
 		$bind_params = array();
 		$queryArray  = array();
-		$fields = array();
 		$values = array();
 		while( list($k,$v) = each($this->_field_values) )
 		{
 			// sanity :: make sure the field we're updating is available in the table
-			if( !in_array($k, $fieldLis) ) { continue; }
+			if( !in_array($k, $fieldList) ) { continue; }
 			// continue to build the query
 			$key = $k."_".Utils::random(5);
 			$bind_params[$key] = $v;
 			// continue to set up the query
-			array_push($queryArray, $k."=".$key);
+			array_push($queryArray, $k." = :".$key);
 		}
 
 		return array(join(",",$queryArray), $bind_params);
