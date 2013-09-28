@@ -71,7 +71,6 @@ class SQLQuery extends Object
 			"direction"	=> null,
 			"record"	=> null,
 			"query"		=> "",
-			"bind_params" => array(),
 			"errorInfo"	=> null
 		));
 		
@@ -93,20 +92,7 @@ class SQLQuery extends Object
 	{
 		$this->direction = "DESCEND";
 	}
-
-	// get the available fields in a table
-	public function getTableFieldList( $table )
-	{
-		$fieldList = array();
-		$sql = new SQLQuery();
-		$q   = "show fields from ".$table;
-		if( !($r = $this->rawQuery($q)) ) { return $fieldList; }
-		// we have fields... continue
-		while( $r->next() ) { array_push($fieldList,$r->Field); }
-		
-		return $fieldList;
-	}
-
+	
 	// open a new auth group
 	public function openAuthGroup( $linkage="and" )
 	{
@@ -114,12 +100,12 @@ class SQLQuery extends Object
 		if( is_null($this->_private_properties->authMethod) )
 		{
 			$this->_private_properties->authMethod = new XML("<query/>");
-			$linkage = null;
 		}
 		// group sanity
 		if( !is_array($this->_private_properties->authGroups) )
 		{
 			$this->_private_properties->authGroups = array();
+			$linkage = null;
 		}
 		// check if there is an open auth group
 		$addto = (count($this->_private_properties->authGroups) > 0)
@@ -162,10 +148,9 @@ class SQLQuery extends Object
 				 ? $this->_private_properties->authGroups[count($this->_private_properties->authGroups) - 1]
 				 : $this->_private_properties->authMethod;
 		// add the field child
-		$child = $addto->addChild($field);
-		$child->addAttribute("operator", $operator);
-		$child->addAttribute("linkage", $linkage);
-		$child->addAttribute("value", $value);
+		$child = $addto->addChild($field,$value);
+		$child->addAttribute("operator",$operator);
+		$child->addAttribute("linkage",$linkage);
 	}
 	private function addToAuthMethod( $objectOrArray )
 	{
@@ -197,48 +182,15 @@ class SQLQuery extends Object
 		}
 	}
 	public function setValue( $key, $value ) { $this->_field_values->$key = $value; }
-	public function getInsertValues()
+	public function getValues() { return $this->_field_values; }
+	
+	// automatic update fields
+	public function autoUpdate()
 	{
-		// get the available fields
-		$fieldList   = $this->getTableFieldList($this->table);
-		$bind_params = array();
-		$fields = array();
-		$values = array();
-		while( list($k,$v) = each($this->_field_values) )
-		{
-			// sanity :: make sure the field we're updating is available in the table
-			if( !in_array($k, $fieldList) ) { continue; }
-			// continue to build the query
-			$key = $k."_".Utils::random(5);
-			$bind_params[$key] = $v;
-			// continue to set up the query
-			array_push($fields, $k);
-			array_push($values, ":".$key);
-		}
-		$queryString = "(".join(",",$fields).") values (".join(",",$values).")";
-
-		return array($queryString, $bind_params);
-	}
-
-	public function getUpdateValues()
-	{
-		// get the available fields
-		$fieldList   = $this->getTableFieldList($this->table);
-		$bind_params = array();
-		$queryArray  = array();
-		$values = array();
-		while( list($k,$v) = each($this->_field_values) )
-		{
-			// sanity :: make sure the field we're updating is available in the table
-			if( !in_array($k, $fieldList) ) { continue; }
-			// continue to build the query
-			$key = $k."_".Utils::random(5);
-			$bind_params[$key] = $v;
-			// continue to set up the query
-			array_push($queryArray, $k." = :".$key);
-		}
-
-		return array(join(",",$queryArray), $bind_params);
+		// auto update field names are defined in our database config file
+		// check for the field in our auto update field name
+		if( defined("LASTMODIFIED") ) { $this->setValue(LASTMODIFIED, "/now()/"); }
+		if( defined("IPADDRESS") ) { $this->setValue(IPADDRESS, getenv("REMOTE_ADDR")); }
 	}
 	
 	// generate a safe query string condition from our auth methods for use
@@ -254,39 +206,32 @@ class SQLQuery extends Object
 		// sanity
 		if( !$node || !$node->children() ) { return $authString; }
 		// loop thru the child nodes of our authMethod XML object
-		$bind_params = array();
 		$i=0;
 		foreach( $node->children() as $child )
 		{
 			// special case for "authGroup" nodes
 			if( $child->getName() == "authGroup" )
 			{
-				list($groupAuthString,$groupBindParams) = $this->getCondition($child);
-				$authString .= $child->attributes()->linkage." ( ".$groupAuthString." ) ";
-				$bind_params = array_merge($bind_params, $groupBindParams);
+				$authString .= $child->attributes()->linkage." ( ";
+				$authString .= $this->getCondition($child);
+				$authString .= ")";
 			}
 			else
 			{
-				$param = $child->getName()."_".Utils::random(5);
+				// linkage...
 				$authString .= ($i > 0) ? $child->attributes()->linkage." " : "";
-				$authString .= $child->getName()." ".$child->attributes()->operator." :".$param;
-				$bind_params[$param] = (string)$child->attributes()->value;
+				// add the name of the field
+				$authString .= $child->getName()." ".$child->attributes()->operator." ";
+				// check for literal field values
+				$authString .= ((substr($child,0,1)=="/") && (substr($child,-1)=="/")) ? substr($child,1,-1) : "\"".$child."\"";
 			}
 			$authString .= " ";
-
+			
+			// increment i
 			$i++;
 		}
 		
-		return array(substr($authString,0,-1), $bind_params);
-	}
-
-	// automatic update fields
-	public function autoUpdate()
-	{
-		// auto update field names are defined in our database config file
-		// check for the field in our auto update field name
-		if( defined("LASTMODIFIED") ) { $this->setValue(LASTMODIFIED, "/now()/"); }
-		if( defined("IPADDRESS") ) { $this->setValue(IPADDRESS, getenv("REMOTE_ADDR")); }
+		return substr($authString,0,-1);	// get rid of trailing space...
 	}
 
 	public function raw( $q ) { return $this->rawQuery($q); }
