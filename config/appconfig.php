@@ -20,7 +20,7 @@ define("URL",		"http://".DOMAIN);
 define("APPDIR",	realpath(dirname(__FILE__)."/../../"));	// this is used to include all other files
 
 // library files path
-define("LIBDIR",	APPDIR."/api/ed/lib");	// realpath() to the ed library files
+define("LIBDIR",	APPDIR."/ed/lib");	// realpath() to the ed library files
 
 
 /////// app database config ////////////////
