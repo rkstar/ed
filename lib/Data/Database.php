@@ -96,7 +96,7 @@ class Database extends Object
 		// more sanity
 		$this->reconnect();
 
-		// check for and act on bind_params
+		// check for and act on "literals" in our bind_params
 		if( !is_null($bind_params) && is_array($bind_params) )
 		{
 			$bp = array();
@@ -109,10 +109,34 @@ class Database extends Object
 				$check_value = preg_replace('/[a-z_]/i', "", substr($v,1,-1));
 				if( (substr($check_value,0,1)==="(") && (substr($check_value,-1)===")") )
 				{
-					$query = str_replace(":".$k, substr($v,1,-1), $query);
+					// break apart each parameter passed to the mysql function we're
+					// working with right now
+					$new_params  = array();
+					$repl_params = array();
+					$params = substr($v, strpos($v, "("), -1);
+					$parts  = explode(",", substr($params,1,-1));
+					while( $param = array_shift($parts) )
+					{
+						if( ((substr($param,0,1)==="\"") && (substr($param,-1)==="\""))
+						 || ((substr($param,0,1)==="'") && (substr($param,-1)==="'")) )
+						{
+							$new_key = $k."_".Utils::random(5);
+							$new_params[$new_key] = $param;
+							array_push($repl_params, ":".$new_key);
+						}
+						else
+						{
+							array_push($repl_params, $param);
+						}
+					}
+					$func  = substr($v, 1, strpos($v, "(")).join(",",$repl_params).")";
+					$query = str_replace(":".$k, $func, $query);
 					unset($bind_params[$k]);
 				}
 			}
+			$bind_params = (!is_null($new_params) && is_array($new_params))
+								? array_merge($bind_params, $new_params)
+								: $bind_params;
 			reset($bind_params);
 		}
 

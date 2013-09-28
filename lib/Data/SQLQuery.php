@@ -235,7 +235,7 @@ class SQLQuery extends Object
 			$key = $k."_".Utils::random(5);
 			$bind_params[$key] = $v;
 			// continue to set up the query
-			array_push($queryArray, $k." = :".$key);
+			array_push($queryArray, $k."=:".$key);
 		}
 
 		return array(join(",",$queryArray), $bind_params);
