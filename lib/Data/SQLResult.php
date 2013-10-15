@@ -57,5 +57,11 @@ class SQLResult extends Object
 		$this->_data = $this->_private_properties->sth->fetch();
 		return ($this->_data);
 	}
+
+	public function getObject()
+	{
+		$this->_data = $this->_private_properties->sth->fetchAll();
+		return ($this->_data);
+	}
 }
 ?>
