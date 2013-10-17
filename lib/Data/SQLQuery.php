@@ -10,6 +10,7 @@
 ed::load("Core.Object");
 ed::load("Data.Database");
 ed::load("Data.XML");
+ed::load("Core.Utils");
 
 class SQLQuery extends Object
 {
