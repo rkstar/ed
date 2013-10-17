@@ -137,8 +137,9 @@ $sql->setValue("password", "/PASSWORD('".$my_new_password."')/");
 #### getValues()
 > Returns a hash array of current field => value pairs.  This will probably never get used.
 
-#### rawQuery( query )
+#### rawQuery( query [, bind_params] )
 > Run a raw SQL query on the currently connected database.
+> Accepts an optional hash array of bind parameters with array keys mapped to ":value" values in the query string.
 > Returns an [**SQLResult**](https://github.com/rkstar/ed/tree/master/docs/Data/SQLResult.md) object containing the results of the query.
 
 #### raw( query )
