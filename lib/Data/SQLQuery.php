@@ -290,7 +290,7 @@ class SQLQuery extends Object
 	}
 
 	public function raw( $q ) { return $this->rawQuery($q); }
-	public function rawQuery( $q ) { return $this->Database->execute($this, $q); }
+	public function rawQuery( $q, $bind_params=null ) { return $this->Database->execute($this, $q, $bind_params); }
 	public function select() { return $this->Database->select($this); }
 	public function delete() { return $this->Database->delete($this); }
 	public function insert()
