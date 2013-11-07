@@ -113,15 +113,16 @@ class Database extends Object
 					// working with right now
 					$new_params  = array();
 					$repl_params = array();
-					$params = substr($v, strpos($v, "("), -1);
-					$parts  = explode(",", substr($params,1,-1));
+					$params = substr($v, strpos($v, "(")+1);
+					$params = substr($params, 0, strrpos($params,")"));
+					$parts  = explode(",", $params);
 					while( $param = array_shift($parts) )
 					{
 						if( ((substr($param,0,1)==="\"") && (substr($param,-1)==="\""))
 						 || ((substr($param,0,1)==="'") && (substr($param,-1)==="'")) )
 						{
 							$new_key = $k."_".Utils::random(5);
-							$new_params[$new_key] = $param;
+							$new_params[$new_key] = substr($param,1,-1);
 							array_push($repl_params, ":".$new_key);
 						}
 						else
