@@ -111,8 +111,8 @@ class Database extends Object
 				{
 					// break apart each parameter passed to the mysql function we're
 					// working with right now
-					$new_params  = array();
-					$repl_params = array();
+					$new_params  = (is_array($new_params)) ? $new_params : array();
+					$repl_params = (is_array($repl_params)) ? $repl_params : array();
 					$params = substr($v, strpos($v, "("), -1);
 					$parts  = explode(",", substr($params,1,-1));
 					while( $param = array_shift($parts) )
