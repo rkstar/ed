@@ -2,7 +2,7 @@
 // Mailer.php
 // written by: David Fudge [ rkstar@mac.com ]
 // created on: November 3, 2008
-// last modified: August 31, 2009
+// last modified: November 17, 2013
 //
 // description:
 // this class extends the wonderful PHPMailer classes that are available
@@ -11,7 +11,7 @@
 // values without having to call it every time
 
 // include the PHPMailer classes
-require_once(LIB."/Utils/PHPMailer/class.phpmailer.php");
+require_once(dirname(__FILE__)."/PHPMailer/class.phpmailer.php");
 
 class Mailer extends PHPMailer
 {

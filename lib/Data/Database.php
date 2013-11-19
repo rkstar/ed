@@ -121,7 +121,7 @@ class Database extends Object
 						 || ((substr($param,0,1)==="'") && (substr($param,-1)==="'")) )
 						{
 							$new_key = $k."_".Utils::random(5);
-							$new_params[$new_key] = $param;
+							$new_params[$new_key] = substr($param,1,-1);
 							array_push($repl_params, ":".$new_key);
 						}
 						else
