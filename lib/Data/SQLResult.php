@@ -61,7 +61,7 @@ class SQLResult extends Object
 	public function all()
 	{
 		$this->_data = $this->_private_properties->sth->fetchAll();
-		return ($this->data);
+		return ($this->_data);
 	}
 }
 ?>
