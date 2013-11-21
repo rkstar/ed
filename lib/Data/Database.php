@@ -77,7 +77,7 @@ class Database extends Object
 	
 	private function buildRawQuery( $query, $bind_params=null )
 	{
-		if( is_null($bind_params) ) { return $query; }
+		if( is_null($bind_params) || !is_array($bind_params) || !is_object($bind_params) ) { return $query; }
 
 		while( list($k,$v) = each($bind_params) )
 		{
