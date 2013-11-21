@@ -1,4 +1,4 @@
-<?
+<?php
 // written by: David Fudge [rkstar@mac.com]
 // created on: October 6, 2008
 // last modified: May 12, 2009

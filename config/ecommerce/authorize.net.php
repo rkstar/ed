@@ -1,4 +1,4 @@
-<?
+<?php
 // Authorize.NET configuration information
 //
 // login id :: YOU NEED TO CHANGE THIS TO YOUR AUTHORIZE.NET LOGIN ID

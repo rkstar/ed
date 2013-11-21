@@ -1,4 +1,4 @@
-<?
+<?php
 // create an array of the Authorize.NET response codes based on position
 //
 // IMPORTANT!!

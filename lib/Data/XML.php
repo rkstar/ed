@@ -1,4 +1,4 @@
-<?
+<?php
 // XML.php
 // written by: David Fudge [ rkstar@mac.com ]
 // created on: November 2, 2008
