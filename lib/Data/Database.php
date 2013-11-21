@@ -134,7 +134,7 @@ class Database extends Object
 					unset($bind_params[$k]);
 				}
 			}
-			$bind_params = (!is_null($new_params) && is_array($new_params))
+			$bind_params = (isset($new_params) && !is_null($new_params) && is_array($new_params))
 								? array_merge($bind_params, $new_params)
 								: $bind_params;
 			reset($bind_params);
