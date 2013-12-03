@@ -309,5 +309,9 @@ class SQLQuery extends Object
 		$this->autoUpdate();
 		return $this->Database->update($this);
 	}
+	// pass-through to the Database object
+	public function beginTransaction() { return $this->Database->beginTransaction(); }
+	public function commit() { return $this->Database->commit(); }
+	public function rollback() { return $this->Database->rollback(); }
 }
 ?>
