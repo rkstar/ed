@@ -279,5 +279,10 @@ class Database extends Object
 		// execute the query
 		return ($this->execute($qobject, $q, $bind_params)) ? true : false;
 	}
+	// pass-through to the PDO object
+	public function beginTransaction() { return $this->pdo->beginTransaction(); }
+	public function commit() { return $this->pdo->commit(); }
+	public function rollback() { return $this->pdo->rollback(); }
+
 }
 ?>
