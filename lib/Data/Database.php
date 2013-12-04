@@ -282,7 +282,8 @@ class Database extends Object
 	// pass-through to the PDO object
 	public function beginTransaction() { return $this->pdo->beginTransaction(); }
 	public function commit() { return $this->pdo->commit(); }
-	public function rollback() { return $this->pdo->rollback(); }
+	public function rollback() { return $this->rollBack(); }
+	public function rollBack() { return $this->pdo->rollBack(); }
 
 }
 ?>

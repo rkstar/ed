@@ -312,6 +312,7 @@ class SQLQuery extends Object
 	// pass-through to the Database object
 	public function beginTransaction() { return $this->Database->beginTransaction(); }
 	public function commit() { return $this->Database->commit(); }
-	public function rollback() { return $this->Database->rollback(); }
+	public function rollback() { return $this->rollBack(); }
+	public function rollBack() { return $this->Database->rollBack(); }
 }
 ?>
