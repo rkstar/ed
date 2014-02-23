@@ -1,4 +1,4 @@
-<?
+<?php
 // included here are defines for all PSIGate response codes so that we do not
 // can easily update them without having to change the guts of the API at
 // a later date for small changes in the ate communication spec.

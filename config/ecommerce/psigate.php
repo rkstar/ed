@@ -1,4 +1,4 @@
-<?
+<?php
 // PSIGate payment gateway configuration
 //
 // store id :: YOU NEED TO CHANGE THIS TO YOUR PSIGATE STORE ID

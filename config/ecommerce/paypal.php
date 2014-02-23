@@ -1,4 +1,4 @@
-<?
+<?php
 // PayPal configuration information
 //
 // define the PayPal information we'll need for submission of the form and

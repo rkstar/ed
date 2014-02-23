@@ -1,4 +1,4 @@
-<?
+<?php
 class USA
 {
 	public static $codes = array("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", 

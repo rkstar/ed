@@ -1,4 +1,4 @@
-<?
+<?php
 // FileUpload.php
 // written by: David Fudge [ rkstar@mac.com ]
 // created on: November 6, 2008

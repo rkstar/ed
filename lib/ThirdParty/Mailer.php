@@ -1,4 +1,4 @@
-<?
+<?php
 // Mailer.php
 // written by: David Fudge [ rkstar@mac.com ]
 // created on: November 3, 2008
